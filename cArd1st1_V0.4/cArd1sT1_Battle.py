@@ -210,7 +210,7 @@ def card_set():
             print_battle_plate()
         elif player_battle_list[card_space] != '':
             print('이미 카드가 그 자리에 있습니다.')
-
+# 와! 수정! 아시는구나!
 
 def match_set():
     print_battle_plate()
