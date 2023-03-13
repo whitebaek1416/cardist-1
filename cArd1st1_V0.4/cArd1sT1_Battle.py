@@ -110,7 +110,7 @@ match_battle_list = ['', '', '', '']
 player_battle_list = ['', '', '', '']
 hand = []
 my_health = 5
-hoil = 0
+
 
 
 def print_battle_plate():

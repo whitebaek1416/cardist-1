@@ -37,6 +37,7 @@ for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_c
          ghost_card_rare + magic_card_normal + magic_card_rare:
     collection[i] = 0
 
+hoil = 0
 
 def select_cardpack(select_rare, select_normal, one_random, two_random, three_random):
     cardpack.append(f'{r.choice(select_rare)}')
