@@ -226,12 +226,16 @@ def card_attack():
         if player_battle_list[i] != '':
             # 상대편에 카드가 없을 때 내 카드의 공격력만큼 체력 회복
             if match_battle_list[i] == '':
-                my_health += player_battle_list[i]['공격력']
+                my_health += cards_kinds[player_battle_list[i]]['공격력']
             # 상대 편에 카드가 있을 때 해당 카드의 체력을 내 카드의 공격력만큼 감소, 0이 되면 사망
             elif match_battle_list[i] != '':
                 cards_kinds[match_battle_list[i]]['체력'] += cards_kinds[player_battle_list[i]]['공격력']
                 if cards_kinds[match_battle_list[i]]['체력'] <= 0:
                     match_battle_list.remove(match_battle_list[i])
+                    if cards_kinds[match_battle_list[i]]['특성'] == '골왕':
+                        bone += 4
+                    else:
+                        bone += 1
             else:
                 pass
 
