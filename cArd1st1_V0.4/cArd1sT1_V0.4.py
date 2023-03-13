@@ -53,8 +53,6 @@ def select_cardpack(select_rare, select_normal, one_random, two_random, three_ra
             cardpack.append(f'{r.choice(three_random)}')
 
 
-hoil = 0
-
 # 시작 덱 결정
 while True:
     starter_card = []
