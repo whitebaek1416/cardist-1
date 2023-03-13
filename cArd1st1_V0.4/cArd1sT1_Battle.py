@@ -230,6 +230,8 @@ def card_attack():
             # 상대 편에 카드가 있을 때 해당 카드의 체력을 내 카드의 공격력만큼 감소, 0이 되면 사망
             elif match_battle_list[i] != '':
                 cards_kinds[match_battle_list[i]]['체력'] += cards_kinds[player_battle_list[i]]['공격력']
+                if cards_kinds[match_battle_list[i]]['체력'] <= 0:
+                    match_battle_list.remove(match_battle_list[i])
             else:
                 pass
 
