@@ -250,9 +250,7 @@ def card_set():
                 need_gem.remove('사파이어')
             if '에메랄드' in gem:
                 need_gem.remove('에메랄드')
-            if need_gem == []:
-
-            else:
+            if need_gem != []:
                 print('필요한 보석이 없습니다.')
 
     while True:
