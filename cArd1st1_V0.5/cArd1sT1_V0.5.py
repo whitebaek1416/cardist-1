@@ -89,6 +89,7 @@ while True:
                 # 만약 덱이 20장 이상이라면 완료.
                 if len(deck) >= 20:
                     print('이제 충분히 찼구나.')
+                    break
                     # 20장 이하라면 완료되지 않음.
                 elif len(deck) < 20:
                     print('너의 덱은 아직 충분치 않다. 최소한 20장은 넣어야 한다.')
@@ -109,6 +110,8 @@ while True:
                         collection[deck_card] -= 1
             elif deck_card not in collection:
                 print('그것은 네가 가진 카드가 아니다.')
+            elif deck_card in collection and collection[deck_card] == 0:
+                print('그 카드는 이미 충분히 넣었다.')
             else:
                 if collection[deck_card] != 0:
                     deck.append(deck_card)
@@ -178,7 +181,4 @@ while True:
             # 내 체력이 올라감
             # 10 이상이면 승리
             cb.earn_cardpack('짐승')
-    # 상인 방문
-    if action == '상인':
-        print('이런, 손님이 오셨네요.')
-        print('저흰 아직 문을 열지 않았답니다.')
+
