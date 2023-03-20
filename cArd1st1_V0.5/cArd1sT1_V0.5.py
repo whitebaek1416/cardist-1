@@ -79,7 +79,6 @@ while True:
         print('덱:')
         print(*deck)
         while True:
-            # 전체 콜렉션에서 0개가 아닌 카드가 있다면 그 이름과 수를 출력한다.
             print('콜렉션:')
             for i in collection:
                 if collection[i] > 0:
@@ -92,7 +91,7 @@ while True:
                     break
                     # 20장 이하라면 완료되지 않음.
                 elif len(deck) < 20:
-                    print('덱은 최소 20장 이상의 카드로 이루어져 있어야 합니다.')
+                    print('너의 덱은 아직 충분치 않다. 최소한 20장은 넣어야 한다.')
             # 20장이 될 때까지 자동으로 카드를 넣어줌
             elif deck_card == '자동 완성':
                 # for문으로 필터
@@ -103,17 +102,19 @@ while True:
                 # 뭔지 모르겠는 람다 함수 필터 사용법
                 complection = dict(filter(lambda e: e[1] > 0, collection.items()))
                 for deck_card, value in complection.items():
-                    if len(deck) == 20:
+                    if len(deck) >= 20:
                         break
                     for i in range(value):
                         deck.append(deck_card)
                         collection[deck_card] -= 1
-                print(*deck)
+            elif deck_card not in collection:
+                print('그것은 네가 가진 카드가 아니다.')
             else:
                 if collection[deck_card] != 0:
                     deck.append(deck_card)
                     collection[deck_card] -= 1
-                print(*deck)
+            print('덱:')
+            print(*deck)
     # 가진 콜렉션에서 카드를 덱에서 뺌
     if action == '덱 제거':
         print('덱:')
@@ -178,3 +179,5 @@ while True:
             # 내 체력이 올라감
             # 10 이상이면 승리
             cb.earn_cardpack('짐승')
+    # 상인 방문
+    # if action == '상인':
