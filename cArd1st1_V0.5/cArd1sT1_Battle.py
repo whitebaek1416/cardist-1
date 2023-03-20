@@ -148,21 +148,21 @@ def select_cardpack(select_rare, select_normal, one_random, two_random, three_ra
             cardpack.append(f'{r.choice(two_random)}')
         elif random_cards == 3:
             cardpack.append(f'{r.choice(three_random)}')
+    return cardpack
 
 
 def earn_cardpack(buy_pack):
-    cardpack = []
     if buy_pack == '짐승':
-        select_cardpack(animal_card_rare, animal_card_normal, machine_card_normal, ghost_card_normal,
+        cardpack = select_cardpack(animal_card_rare, animal_card_normal, machine_card_normal, ghost_card_normal,
                         magic_card_normal)
     elif buy_pack == '기계':
-        select_cardpack(machine_card_rare, machine_card_normal, animal_card_normal, ghost_card_normal,
+        cardpack = select_cardpack(machine_card_rare, machine_card_normal, animal_card_normal, ghost_card_normal,
                         magic_card_normal)
     elif buy_pack == '망자':
-        select_cardpack(ghost_card_rare, ghost_card_normal, animal_card_normal, machine_card_normal,
+        cardpack = select_cardpack(ghost_card_rare, ghost_card_normal, animal_card_normal, machine_card_normal,
                         magic_card_normal)
     elif buy_pack == '마력':
-        select_cardpack(magic_card_rare, magic_card_normal, animal_card_normal, machine_card_normal,
+        cardpack = select_cardpack(magic_card_rare, magic_card_normal, animal_card_normal, machine_card_normal,
                         ghost_card_normal)
     input(f'{cardpack[0]}, {cardpack[1]}, {cardpack[2]}, {cardpack[3]}, {cardpack[4]}')
     print('너의 콜렉션에 카드가 추가되었다.')

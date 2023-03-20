@@ -201,11 +201,13 @@ while True:
             buying = input('구매 항목: 일반 카드, 레어 카드, 카드팩')
             if buying == '일반 카드' and hoil >= 1:
                 random_card_normal = r.choice(normal_cards)
+                print(random_card_normal)
                 collection[random_card_normal] += 1
                 hoil -= 1
                 break
             elif buying == '레어 카드' and hoil >= 3:
                 random_card_rare = r.choice(rare_cards)
+                print(random_card_rare)
                 collection[random_card_rare] += 1
                 hoil -= 3
                 break
