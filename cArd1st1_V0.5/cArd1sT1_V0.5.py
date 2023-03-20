@@ -23,7 +23,7 @@ rare_cards = animal_card_rare + machine_card_rare + ghost_card_rare + magic_card
 for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_card_rare + ghost_card_normal + \
          ghost_card_rare + magic_card_normal + magic_card_rare:
     collection[i] = 0
-hoil = 0
+hoil = 10000
 
 
 # 시작 덱 결정
@@ -193,10 +193,11 @@ while True:
     # 상인 제작 중
     if action == '상인':
         while True:
-            print('카드를 원하신다면야...')
+            print('원하시는 물건이 있으시다면...')
             print('랜덤한 카드팩: 포일 5')
             print('랜덤한 일반 카드: 포일 1')
             print('랜덤한 레어 카드: 포일 3')
+            print(f'호일: {hoil}개')
             buying = input('구매 항목: 일반 카드, 레어 카드, 카드팩')
             if buying == '일반 카드' and hoil >= 1:
                 random_card_normal = r.choice(normal_cards)
