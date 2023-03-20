@@ -135,7 +135,6 @@ for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_c
     collection[i] = 0
 
 
-
 def select_cardpack(select_rare, select_normal, one_random, two_random, three_random):
     cardpack = []
     cardpack.append(f'{r.choice(select_rare)}')
@@ -173,13 +172,16 @@ def earn_cardpack(buy_pack):
 
 def mox_search():
     if '루비 목스' in player_battle_list and '루비' not in gem or '고란즈의 목스' in player_battle_list and '루비' not in gem \
-            or '오를루의 목스' in player_battle_list and '루비' not in gem:
+            or '오를루의 목스' in player_battle_list and '루비' not in gem or '위대한 목스' in player_battle_list and '루비' \
+            not in gem:
         gem.append('루비')
     if '사파이어 목스' in player_battle_list and '사파이어' not in gem or '블린의 목스' in player_battle_list and '사파이어' not \
-            in gem or '오를루의 목스' in player_battle_list and '사파이어' not in gem:
+            in gem or '오를루의 목스' in player_battle_list and '사파이어' not in gem or '위대한 목스' in player_battle_list and\
+            '사파이어' not in gem:
         gem.append('사파이어')
     if '에메랄드 목스' in player_battle_list and '에메랄드' not in gem or '블린의 목스' in player_battle_list and '에메랄드' not \
-            in gem or '고란즈의 목스' in player_battle_list and '에메랄드' not in gem:
+            in gem or '고란즈의 목스' in player_battle_list and '에메랄드' not in gem or '위대한 목스' in player_battle_list and\
+            '에메랄드' not in gem:
         gem.append('에메랄드')
 
 

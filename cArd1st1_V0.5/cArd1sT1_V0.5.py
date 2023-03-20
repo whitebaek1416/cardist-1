@@ -18,9 +18,12 @@ magic_card_normal = ['루비 목스', '사파이어 목스', '에메랄드 목�
                      '파란 마법사', '보석 광인', '유영 마법사', '포스 마법사', '초록 마법사', '견습 현자', '근육 마법사', '자극 마법사',
                      '미식마법사']
 magic_card_rare = ['블린의 목스', '고란즈의 목스', '오를루의 목스', '마스터 블린', '마스터 고란즈', '마스터 오를루']
+normal_cards = animal_card_normal + machine_card_normal + ghost_card_normal + magic_card_normal
+rare_cards = animal_card_rare + machine_card_rare + ghost_card_rare + magic_card_rare
 for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_card_rare + ghost_card_normal + \
          ghost_card_rare + magic_card_normal + magic_card_rare:
     collection[i] = 0
+hoil = 0
 
 
 # 시작 덱 결정
@@ -136,6 +139,8 @@ while True:
                 print(*deck)
                 break
             elif deck_card == '전체 제거':
+                if len(deck) == 0:
+                    print("뺄 것이 무엇이 있다고 빼려 하는가.")
                 temp_deck = deck.copy()
                 for i in temp_deck:
                     deck.remove(i)
@@ -187,6 +192,28 @@ while True:
             cb.earn_cardpack('짐승')
     # 상인 제작 중
     if action == '상인':
-        print('카드를 원하신다면야...')
-        print('랜덤한 카드팩: 포일 5')
-        print('랜덤한 카드팩: 포일 5')
+        while True:
+            print('카드를 원하신다면야...')
+            print('랜덤한 카드팩: 포일 5')
+            print('랜덤한 일반 카드: 포일 1')
+            print('랜덤한 레어 카드: 포일 3')
+            buying = input('구매 항목: 일반 카드, 레어 카드, 카드팩')
+            if buying == '일반 카드' and hoil >= 1:
+                random_card_normal = r.choice(normal_cards)
+                collection[random_card_normal] += 1
+                hoil -= 1
+                break
+            elif buying == '레어 카드' and hoil >= 3:
+                random_card_rare = r.choice(rare_cards)
+                collection[random_card_rare] += 1
+                hoil -= 3
+                break
+            elif buying == '카드팩' and hoil >= 5:
+                random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
+                cb.earn_cardpack(random_cardpack)
+                hoil -= 5
+                break
+            else:
+                print('그런 물건은 취급하지 않습니다만...')
+                continue
+        print('이용해주셔서 감사합니다.')
