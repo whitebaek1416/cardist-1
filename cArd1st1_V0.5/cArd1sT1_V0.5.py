@@ -1,3 +1,4 @@
+import random as r
 import cArd1sT1_Battle as cb
 from collections import defaultdict
 
@@ -20,6 +21,7 @@ magic_card_rare = ['블린의 목스', '고란즈의 목스', '오를루의 목�
 for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_card_rare + ghost_card_normal + \
          ghost_card_rare + magic_card_normal + magic_card_rare:
     collection[i] = 0
+
 
 # 시작 덱 결정
 while True:
@@ -95,6 +97,9 @@ while True:
                     print('너의 덱은 아직 충분치 않다. 최소한 20장은 넣어야 한다.')
             # 20장이 될 때까지 자동으로 카드를 넣어줌
             elif deck_card == '자동 완성':
+                if len(deck) >= 20:
+                    print('이제 충분히 찼구나.')
+                    break
                 # for문으로 필터
                 # complection = {}
                 # for key, value in collection.items():
@@ -103,8 +108,6 @@ while True:
                 # 뭔지 모르겠는 람다 함수 필터 사용법
                 complection = dict(filter(lambda e: e[1] > 0, collection.items()))
                 for deck_card, value in complection.items():
-                    if len(deck) >= 20:
-                        print('이제 충분히 찼구나.')
                     for i in range(value):
                         deck.append(deck_card)
                         collection[deck_card] -= 1
@@ -129,14 +132,15 @@ while True:
             deck_card = input("카드 이름을 입력하면 덱에 있는 카드가 콜렉션으로 돌아갑니다.('전체 제거'를 입력하면 모든 카드가 콜렉션으로"
                               " 돌아갑니다. '완료'를 입력하면 덱 제거를 종료합니다.)")
             if deck_card == '완료':
+                print('덱:')
                 print(*deck)
                 break
             elif deck_card == '전체 제거':
-                while len(deck) > 0:
-                    for i in collection:
-                        while deck[i] != 0:
-                            deck.remove(i)
-                            collection[i] += 1
+                temp_deck = deck.copy()
+                for i in temp_deck:
+                    deck.remove(i)
+                    collection[i] += 1
+                print('덱:')
                 print(*deck)
             else:
                 deck.remove(deck_card)
@@ -181,4 +185,8 @@ while True:
             # 내 체력이 올라감
             # 10 이상이면 승리
             cb.earn_cardpack('짐승')
-
+    # 상인 제작 중
+    if action == '상인':
+        print('카드를 원하신다면야...')
+        print('랜덤한 카드팩: 포일 5')
+        print('랜덤한 카드팩: 포일 5')

@@ -130,11 +130,10 @@ magic_card_normal = ['루비 목스', '사파이어 목스', '에메랄드 목�
                      '파란 마법사', '보석 광인', '유영 마법사', '포스 마법사', '초록 마법사', '견습 현자', '근육 마법사', '자극 마법사',
                      '미식마법사']
 magic_card_rare = ['블린의 목스', '고란즈의 목스', '오를루의 목스', '마스터 블린', '마스터 고란즈', '마스터 오를루']
-
-
 for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_card_rare + ghost_card_normal + \
          ghost_card_rare + magic_card_normal + magic_card_rare:
     collection[i] = 0
+
 
 
 def select_cardpack(select_rare, select_normal, one_random, two_random, three_random):
