@@ -172,6 +172,18 @@ def earn_cardpack(buy_pack):
         collection[i] += 1
 
 
+def mox_search():
+    if '루비 목스' in player_battle_list and '루비' not in gem or '고란즈의 목스' in player_battle_list and '루비' not in gem \
+            or '오를루의 목스' in player_battle_list and '루비' not in gem:
+        gem.append('루비')
+    if '사파이어 목스' in player_battle_list and '사파이어' not in gem or '블린의 목스' in player_battle_list and '사파이어' not \
+            in gem or '오를루의 목스' in player_battle_list and '사파이어' not in gem:
+        gem.append('사파이어')
+    if '에메랄드 목스' in player_battle_list and '에메랄드' not in gem or '블린의 목스' in player_battle_list and '에메랄드' not \
+            in gem or '고란즈의 목스' in player_battle_list and '에메랄드' not in gem:
+        gem.append('에메랄드')
+
+
 def print_battle_plate():
     print(match_ready_list)
     print(match_battle_list)
@@ -205,6 +217,7 @@ def draw(deck):
 
 
 def card_set():
+    mox_search()
     global energy
     global bone
     global gem
@@ -300,15 +313,3 @@ def card_attack():
                 #     print('승리!')
                 #     if my_health < 10:
                 #         hoil += my_health - 10
-
-
-def mox_search():
-    if '루비 목스' in player_battle_list and '루비' not in gem or '고란즈의 목스' in player_battle_list and '루비' not in gem \
-            or '오를루의 목스' in player_battle_list and '루비' not in gem:
-        gem.append('루비')
-    if '사파이어 목스' in player_battle_list and '사파이어' not in gem or '블린의 목스' in player_battle_list and '사파이어' not \
-            in gem or '오를루의 목스' in player_battle_list and '사파이어' not in gem:
-        gem.append('사파이어')
-    if '에메랄드 목스' in player_battle_list and '에메랄드' not in gem or '블린의 목스' in player_battle_list and '에메랄드' not \
-            in gem or '고란즈의 목스' in player_battle_list and '에메랄드' not in gem:
-        gem.append('에메랄드')
