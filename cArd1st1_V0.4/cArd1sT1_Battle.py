@@ -112,6 +112,40 @@ hand = []
 my_health = 5
 
 
+def select_cardpack(select_rare, select_normal, one_random, two_random, three_random):
+    cardpack = []
+    cardpack.append(f'{r.choice(select_rare)}')
+    for i in range(2):
+        cardpack.append(f'{r.choice(select_normal)}')
+    for i in range(2):
+        random_cards = r.randint(1, 3)
+        if random_cards == 1:
+            cardpack.append(f'{r.choice(one_random)}')
+        elif random_cards == 2:
+            cardpack.append(f'{r.choice(two_random)}')
+        elif random_cards == 3:
+            cardpack.append(f'{r.choice(three_random)}')
+
+
+def earn_cardpack(buy_pack):
+    cardpack = []
+    if buy_pack == '짐승':
+        select_cardpack(animal_card_rare, animal_card_normal, machine_card_normal, ghost_card_normal,
+                        magic_card_normal)
+    elif buy_pack == '기계':
+        select_cardpack(machine_card_rare, machine_card_normal, animal_card_normal, ghost_card_normal,
+                        magic_card_normal)
+    elif buy_pack == '망자':
+        select_cardpack(ghost_card_rare, ghost_card_normal, animal_card_normal, machine_card_normal,
+                        magic_card_normal)
+    elif buy_pack == '마력':
+        select_cardpack(magic_card_rare, magic_card_normal, animal_card_normal, machine_card_normal,
+                        ghost_card_normal)
+    input(f'{cardpack[0]}, {cardpack[1]}, {cardpack[2]}, {cardpack[3]}, {cardpack[4]}')
+    print('너의 콜렉션에 카드가 추가되었다.')
+    for i in cardpack:
+        collection[i] += 1
+
 
 def print_battle_plate():
     print(match_ready_list)
@@ -148,6 +182,7 @@ def draw(deck):
 def card_set():
     global energy
     global bone
+    global gem
     while True:
         set_card = input('놓을 카드를 입력하세요.(카드 이름)')
         if set_card not in hand:
@@ -184,18 +219,16 @@ def card_set():
         # 비용이 보석일 때
         elif cards_kinds[set_card]['비용'][0] == '보석':
             need_gem = [cards_kinds[set_card]['비용'][1] for i in range(len(cards_kinds[set_card]['비용']))]
-            while True:
-                if '루비 목스' in player_battle_list or '고란즈의 목스' in player_battle_list or '오를루의 목스' in player_battle_list:
-                    need_gem.remove('루비')
-                elif '사파이어 목스' in player_battle_list or '블린의 목스' in player_battle_list or '오를루의 목스' in player_battle_list:
-                    need_gem.remove('사파이어')
-                elif '에메랄드 목스' in player_battle_list or '블린의 목스' in player_battle_list or '고란즈의 목스' in player_battle_list:
-                    need_gem.remove('에메랄드')
-                if need_gem == []:
-                    break
-                else:
-                    continue
-                    
+            if '루비' in gem:
+                need_gem.remove('루비')
+            if '사파이어' in gem:
+                need_gem.remove('사파이어')
+            if '에메랄드' in gem:
+                need_gem.remove('에메랄드')
+            if need_gem == []:
+
+            else:
+                print('필요한 보석이 없습니다.')
 
     while True:
         print_battle_plate()
@@ -221,6 +254,7 @@ def match_set():
 
 def card_attack():
     global my_health
+    global bone
     global hoil
     for i in range(4):
         if player_battle_list[i] != '':
@@ -243,3 +277,15 @@ def card_attack():
                 #     print('승리!')
                 #     if my_health < 10:
                 #         hoil += my_health - 10
+
+
+def mox_search():
+    if '루비 목스' in player_battle_list and '루비' not in gem or '고란즈의 목스' in player_battle_list and '루비' not in gem \
+            or '오를루의 목스' in player_battle_list and '루비' not in gem:
+        gem.append('루비')
+    if '사파이어 목스' in player_battle_list and '사파이어' not in gem or '블린의 목스' in player_battle_list and '사파이어' not \
+            in gem or '오를루의 목스' in player_battle_list and '사파이어' not in gem:
+        gem.append('사파이어')
+    if '에메랄드 목스' in player_battle_list and '에메랄드' not in gem or '블린의 목스' in player_battle_list and '에메랄드' not \
+            in gem or '고란즈의 목스' in player_battle_list and '에메랄드' not in gem:
+        gem.append('에메랄드')

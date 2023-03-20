@@ -26,21 +26,6 @@ for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_c
 
 hoil = 0
 
-
-def select_cardpack(select_rare, select_normal, one_random, two_random, three_random):
-    cardpack.append(f'{r.choice(select_rare)}')
-    for i in range(2):
-        cardpack.append(f'{r.choice(select_normal)}')
-    for i in range(2):
-        random_cards = r.randint(1, 3)
-        if random_cards == 1:
-            cardpack.append(f'{r.choice(one_random)}')
-        elif random_cards == 2:
-            cardpack.append(f'{r.choice(two_random)}')
-        elif random_cards == 3:
-            cardpack.append(f'{r.choice(three_random)}')
-
-
 # 시작 덱 결정
 while True:
     starter_card = []
@@ -91,9 +76,10 @@ while True:
 
 # 본 게임
 while True:
-    action = input('행동을 입력하시오.(덱 추가, 덱 제거, 배틀(미완성), 카드팩 획득)')
+    action = input('행동을 입력하시오.(덱 추가, 덱 제거, 배틀(제작 중), 덱 보기, 콜렉션 보기)')
     # 가진 콜렉션에서 카드를 덱에 넣음
     if action == '덱 추가':
+        print('덱:')
         print(*deck)
         while True:
             # 전체 콜렉션에서 0개가 아닌 카드가 있다면 그 이름과 수를 출력한다.
@@ -133,6 +119,8 @@ while True:
                 print(*deck)
     # 가진 콜렉션에서 카드를 덱에서 뺌
     if action == '덱 제거':
+        print('덱:')
+        print(*deck)
         while True:
             for i in collection:
                 if not collection[i] == 0:
@@ -154,10 +142,21 @@ while True:
                 deck.remove(deck_card)
                 collection[deck_card] += 1
                 print(*deck)
+    # 내 덱 보기
+    if action == '덱 보기':
+        print('덱:')
+        print(*deck)
+    # 내 카드 모음 보기
+    if action == '콜렉션 보기':
+        print('콜렉션:')
+        for i in collection:
+            if collection[i] > 0:
+                print(f'{i}: {collection[i]}')
     # 배틀 제작 중
     if action == '배틀':
         energy = 0
         bone = 0
+        gem = []
         if len(deck) < 20:
             print('덱 미완성')
             continue
@@ -181,23 +180,4 @@ while True:
             # 카드가 공격함
             # 내 체력이 올라감
             # 10 이상이면 승리
-    # 카드팩 획득
-    if action == '카드팩 획득':
-        cardpack = []
-        buy_pack = input('카드 팩 테마 입력')
-        if buy_pack == '짐승':
-            select_cardpack(animal_card_rare, animal_card_normal, machine_card_normal, ghost_card_normal,
-                            magic_card_normal)
-        elif buy_pack == '기계':
-            select_cardpack(machine_card_rare, machine_card_normal, animal_card_normal, ghost_card_normal,
-                            magic_card_normal)
-        elif buy_pack == '망자':
-            select_cardpack(ghost_card_rare, ghost_card_normal, animal_card_normal, machine_card_normal,
-                            magic_card_normal)
-        elif buy_pack == '마력':
-            select_cardpack(magic_card_rare, magic_card_normal, animal_card_normal, machine_card_normal,
-                            ghost_card_normal)
-        input(f'{cardpack[0]}, {cardpack[1]}, {cardpack[2]}, {cardpack[3]}, {cardpack[4]}')
-        print('너의 콜렉션에 카드가 추가되었다.')
-        for i in cardpack:
-            collection[i] += 1
+            cb.earn_cardpack('짐승')
