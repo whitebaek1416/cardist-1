@@ -88,7 +88,7 @@ while True:
             if deck_card == '완료':
                 # 만약 덱이 20장 이상이라면 완료.
                 if len(deck) >= 20:
-                    break
+                    print('이제 충분히 찼구나.')
                     # 20장 이하라면 완료되지 않음.
                 elif len(deck) < 20:
                     print('너의 덱은 아직 충분치 않다. 최소한 20장은 넣어야 한다.')
@@ -103,7 +103,7 @@ while True:
                 complection = dict(filter(lambda e: e[1] > 0, collection.items()))
                 for deck_card, value in complection.items():
                     if len(deck) >= 20:
-                        break
+                        print('이제 충분히 찼구나.')
                     for i in range(value):
                         deck.append(deck_card)
                         collection[deck_card] -= 1
@@ -131,10 +131,9 @@ while True:
             elif deck_card == '전체 제거':
                 while len(deck) > 0:
                     for i in collection:
-                        deck_card = i
-                        if collection[deck_card] > 0:
-                            deck.remove(deck_card)
-                            collection[deck_card] += 1
+                        while deck[i] != 0:
+                            deck.remove(i)
+                            collection[i] += 1
                 print(*deck)
             else:
                 deck.remove(deck_card)
@@ -180,4 +179,6 @@ while True:
             # 10 이상이면 승리
             cb.earn_cardpack('짐승')
     # 상인 방문
-    # if action == '상인':
+    if action == '상인':
+        print('이런, 손님이 오셨네요.')
+        print('저흰 아직 문을 열지 않았답니다.')
