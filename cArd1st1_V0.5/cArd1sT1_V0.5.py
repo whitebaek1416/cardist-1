@@ -23,7 +23,7 @@ rare_cards = animal_card_rare + machine_card_rare + ghost_card_rare + magic_card
 for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_card_rare + ghost_card_normal + \
          ghost_card_rare + magic_card_normal + magic_card_rare:
     collection[i] = 0
-hoil = 10000
+hoil = 0
 
 
 # 시작 덱 결정
@@ -78,6 +78,7 @@ while True:
 
 # 본 게임
 while True:
+    print(f'호일: {hoil}개')
     action = input('행동을 입력하시오.(덱 추가, 덱 제거, 배틀(제작 중), 덱 보기, 콜렉션 보기, 상인)')
     # 가진 콜렉션에서 카드를 덱에 넣음
     if action == '덱 추가':
@@ -118,10 +119,12 @@ while True:
                 print('그것은 네가 가진 카드가 아니다.')
             elif deck_card in collection and collection[deck_card] == 0:
                 print('그 카드는 이미 충분히 넣었다.')
-            else:
+            elif deck_card in collection:
                 if collection[deck_card] != 0:
                     deck.append(deck_card)
                     collection[deck_card] -= 1
+            else:
+                continue
             print('덱:')
             print(*deck)
     # 가진 콜렉션에서 카드를 덱에서 뺌
@@ -147,10 +150,12 @@ while True:
                     collection[i] += 1
                 print('덱:')
                 print(*deck)
-            else:
+            elif deck_card in deck:
                 deck.remove(deck_card)
                 collection[deck_card] += 1
                 print(*deck)
+            else:
+                print('그것은 네가 가진 카드가 아니다.')
     # 내 덱 보기
     if action == '덱 보기':
         print('덱:')
@@ -192,31 +197,32 @@ while True:
             cb.earn_cardpack('짐승')
     # 상인 제작 중
     if action == '상인':
-        while True:
-            print('원하시는 물건이 있으시다면...')
-            print('랜덤한 카드팩: 포일 5')
-            print('랜덤한 일반 카드: 포일 1')
-            print('랜덤한 레어 카드: 포일 3')
-            print(f'호일: {hoil}개')
-            buying = input('구매 항목: 일반 카드, 레어 카드, 카드팩')
-            if buying == '일반 카드' and hoil >= 1:
-                random_card_normal = r.choice(normal_cards)
-                print(random_card_normal)
-                collection[random_card_normal] += 1
-                hoil -= 1
-                break
-            elif buying == '레어 카드' and hoil >= 3:
-                random_card_rare = r.choice(rare_cards)
-                print(random_card_rare)
-                collection[random_card_rare] += 1
-                hoil -= 3
-                break
-            elif buying == '카드팩' and hoil >= 5:
-                random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
-                cb.earn_cardpack(random_cardpack)
-                hoil -= 5
-                break
-            else:
-                print('그런 물건은 취급하지 않습니다만...')
-                continue
-        print('이용해주셔서 감사합니다.')
+        if hoil != 0:
+            while True:
+                print('원하시는 물건이 있으시다면...')
+                print('랜덤한 카드팩: 포일 5')
+                print('랜덤한 일반 카드: 포일 1')
+                print('랜덤한 레어 카드: 포일 3')
+                print(f'호일: {hoil}개')
+                buying = input('구매 항목: 일반 카드, 레어 카드, 카드팩')
+                if buying == '일반 카드' and hoil >= 1:
+                    random_card_normal = r.choice(normal_cards)
+                    print(random_card_normal)
+                    collection[random_card_normal] += 1
+                    hoil -= 1
+                    break
+                elif buying == '레어 카드' and hoil >= 3:
+                    random_card_rare = r.choice(rare_cards)
+                    print(random_card_rare)
+                    collection[random_card_rare] += 1
+                    hoil -= 3
+                    break
+                elif buying == '카드팩' and hoil >= 5:
+                    random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
+                    cb.earn_cardpack(random_cardpack)
+                    hoil -= 5
+                    break
+                else:
+                    print('그런 물건은 취급하지 않습니다만...')
+                    continue
+            print('이용해주셔서 감사합니다.')
