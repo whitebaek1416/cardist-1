@@ -1,6 +1,7 @@
 import cArd1sT1_Battle as cb
 from collections import defaultdict
 
+deck = []
 collection = defaultdict(int)
 animal_card_normal = ['거대 크라켄', '거울 촉수', '종 촉수', '패 촉수', '고양이', '늑대', '아기 늑대', '다람쥐', '다람쥐 공', '담비', '두더지', '무스', '새끼 무스', '물총새', '민물 거북',
                       '민물 수달', '매', '블러드하운드', '비둘기', '살무사', '스컹크', '코요테', '큰까마귀', '향유고래', '황소개구리',
@@ -67,6 +68,8 @@ while True:
             break
         elif choose_magic_deck == '내버려둔다':
             pass
+    else:
+        print('그것은 너의 야망이 될 수 없다.')
 
 # 본 게임
 while True:
