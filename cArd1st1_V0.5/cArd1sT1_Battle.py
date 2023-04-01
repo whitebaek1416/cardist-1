@@ -114,60 +114,6 @@ my_health = 5
 
 # 플레이어의 진행 목록
 deck = []
-collection = defaultdict(int)
-hoil = 0
-animal_card_normal = ['거대 크라켄', '거울 촉수', '종 촉수', '패 촉수', '고양이', '늑대', '아기 늑대', '다람쥐', '다람쥐 공', '담비', '두더지', '무스', '새끼 무스', '물총새', '민물 거북',
-                      '민물 수달', '매', '블러드하운드', '비둘기', '살무사', '스컹크', '코요테', '큰까마귀', '향유고래', '황소개구리',
-                      '회색곰']
-animal_card_rare = ['두더지인간', '사마귀신', '우라율리', '우로보로스', '전기뱀장어']
-machine_card_normal = ['감시 드론', '무효화 전도체', 'L33pB0t', '고GI봇', '버프 전도체', '에너지봇', '봄버봇', '49er', '자동 장치',
-                       '곤충 드론', '공장 전도체', '두꺼운 드로이드', '피버봇', '더블 거너', '볼트하운드', '스팀봇']
-machine_card_rare = ['목스 모듈', '에너지 전도체', '폭탄 부인', '곡선넘이', '사진충']
-ghost_card_normal = ['해골', '뼈 굴착자', '드라우그르', '망령', '밴시', '뼈 마법사', '좀비', '부서진 은화(왼쪽)', '부서진 은화(오른쪽)',
-                     '석관', '유령선', '익사한 영혼', '워커즈', '프랭크 & 스타인', '본하운드', '미라 제왕']
-ghost_card_rare = ['뼈 무더기', '도굴꾼', '네크로맨서', '죽은 손', '파라오의 애완동물', '목 없는 기사']
-magic_card_normal = ['루비 목스', '사파이어 목스', '에메랄드 목스', '견습 마법사', '붉은 마법사', '연습용 마법사', '루비 골렘', '마법 기사',
-                     '파란 마법사', '보석 광인', '유영 마법사', '포스 마법사', '초록 마법사', '견습 현자', '근육 마법사', '자극 마법사',
-                     '미식마법사']
-magic_card_rare = ['블린의 목스', '고란즈의 목스', '오를루의 목스', '마스터 블린', '마스터 고란즈', '마스터 오를루']
-for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_card_rare + ghost_card_normal + \
-         ghost_card_rare + magic_card_normal + magic_card_rare:
-    collection[i] = 0
-
-
-def select_cardpack(select_rare, select_normal, one_random, two_random, three_random):
-    cardpack = []
-    cardpack.append(f'{r.choice(select_rare)}')
-    for i in range(2):
-        cardpack.append(f'{r.choice(select_normal)}')
-    for i in range(2):
-        random_cards = r.randint(1, 3)
-        if random_cards == 1:
-            cardpack.append(f'{r.choice(one_random)}')
-        elif random_cards == 2:
-            cardpack.append(f'{r.choice(two_random)}')
-        elif random_cards == 3:
-            cardpack.append(f'{r.choice(three_random)}')
-    return cardpack
-
-
-def earn_cardpack(buy_pack):
-    if buy_pack == '짐승':
-        cardpack = select_cardpack(animal_card_rare, animal_card_normal, machine_card_normal, ghost_card_normal,
-                        magic_card_normal)
-    elif buy_pack == '기계':
-        cardpack = select_cardpack(machine_card_rare, machine_card_normal, animal_card_normal, ghost_card_normal,
-                        magic_card_normal)
-    elif buy_pack == '망자':
-        cardpack = select_cardpack(ghost_card_rare, ghost_card_normal, animal_card_normal, machine_card_normal,
-                        magic_card_normal)
-    elif buy_pack == '마력':
-        cardpack = select_cardpack(magic_card_rare, magic_card_normal, animal_card_normal, machine_card_normal,
-                        ghost_card_normal)
-    input(f'{cardpack[0]}, {cardpack[1]}, {cardpack[2]}, {cardpack[3]}, {cardpack[4]}')
-    print('너의 콜렉션에 카드가 추가되었다.')
-    for i in cardpack:
-        collection[i] += 1
 
 
 def mox_search():
@@ -191,7 +137,7 @@ def print_battle_plate():
     print(player_battle_list)
 
 
-def battle_draw(deck):
+def draw(deck):
     battle_deck = deck
     drawed_card = r.choice(battle_deck)
     hand.append(drawed_card)
@@ -199,29 +145,18 @@ def battle_draw(deck):
 
 
 def start_draw(deck):
-    for i in range(4):
-        battle_draw(deck)
+    for i in range(3):
+        draw(deck)
     print(*hand)
 
 
-def draw(deck):
-    if len(deck) < 20:
-        print('덱이 20장 이하입니다.')
-    hand = []
-    for i in range(4):
-        battle_draw(deck)
-        print(*hand)
-    while len(deck) > 0:
-        input('엔터 키를 눌러 카드를 드로우하세요.')
-        battle_draw(deck)
-        print(*hand)
-
-
 def card_set():
-    mox_search()
     global energy
     global bone
     global gem
+    print(f'에너지: {energy}')
+    print(f'뼈: {bone}')
+    print(f'보석: {gem}')
     while True:
         set_card = input('놓을 카드를 입력하세요.(카드 이름)')
         if set_card not in hand:
@@ -236,25 +171,33 @@ def card_set():
             for i in range(4):
                 if cards_kinds[player_battle_list[i]]['희생 여부'] == '가능' or cards_kinds[player_battle_list[i]]['희생 여부'] == '다중':
                     can_be_blood += 1
-                if can_be_blood >= need_blood:
-                    for i in range(need_blood):
-                        print(*blood_card_list)
-                        blood_card = input('희생할 카드를 입력하세요.(카드 이름)')
-                        if cards_kinds[blood_card]['희생 여부'] == '다중':
-                            need_blood -= 1
-                        elif cards_kinds[blood_card]['희생 여부'] == '가능':
-                            need_blood -= 1
-                            player_battle_list.remove(blood_card)
-                            bone += 1
-                        elif cards_kinds[blood_card]['희생 여부'] == '불가능':
-                            print('이 카드는 희생할 수 없습니다.')
-                        blood_card_list.remove(blood_card)
+            if can_be_blood >= need_blood:
+                for i in range(need_blood):
+                    print(blood_card_list)
+                    blood_card = input('희생할 카드를 입력하세요.(카드 이름)')
+                    if cards_kinds[blood_card]['희생 여부'] == '다중':
+                        need_blood -= 1
+                    elif cards_kinds[blood_card]['희생 여부'] == '가능':
+                        need_blood -= 1
+                        player_battle_list.remove(blood_card)
+                        bone += 1
+                    elif cards_kinds[blood_card]['희생 여부'] == '불가능':
+                        print('이 카드는 희생할 수 없습니다.')
+                    blood_card_list.remove(blood_card)
+            else:
+                print('그것을 내기 위한 피가 부족하다.')
         # 비용이 에너지일 때
         elif cards_kinds[set_card]['비용'][0] == '에너지':
-            energy -= cards_kinds[set_card]['비용'][1]
+            if energy >= cards_kinds[set_card]['비용'][1]:
+                energy -= cards_kinds[set_card]['비용'][1]
+            else:
+                print('그것을 내기 위한 에너지가 부족하다.')
         # 비용이 뼈일 때
         elif cards_kinds[set_card]['비용'][0] == '뼈':
-            bone -= cards_kinds[set_card]['비용'][1]
+            if bone >= cards_kinds[set_card]['비용'][1]:
+                bone -= cards_kinds[set_card]['비용'][1]
+            else:
+                print('그것을 내기 위한 뼈가 부족하다.')
         # 비용이 보석일 때
         elif cards_kinds[set_card]['비용'][0] == '보석':
             need_gem = [cards_kinds[set_card]['비용'][1] for i in range(len(cards_kinds[set_card]['비용']))]
@@ -264,7 +207,7 @@ def card_set():
                 need_gem.remove('사파이어')
             if '에메랄드' in gem:
                 need_gem.remove('에메랄드')
-            if need_gem != []:
+            if need_gem == []:
                 print('필요한 보석이 없습니다.')
 
     while True:
@@ -273,11 +216,11 @@ def card_set():
         if card_space < 1 or card_space > 4:
             print('정확한 자리를 입력하세요.')
             continue
-        elif player_battle_list[card_space] == '':
-            player_battle_list[card_space] = [set_card, cards_kinds[set_card]]
+        elif player_battle_list[card_space-1] == '':
+            player_battle_list[card_space-1] = [set_card, cards_kinds[set_card]]
             hand.remove(set_card)
             print_battle_plate()
-        elif player_battle_list[card_space] != '':
+        elif player_battle_list[card_space-1] != '':
             print('이미 카드가 그 자리에 있습니다.')
 
 
@@ -292,7 +235,6 @@ def match_set():
 def card_attack():
     global my_health
     global bone
-    global hoil
     for i in range(4):
         if player_battle_list[i] != '':
             # 상대편에 카드가 없을 때 내 카드의 공격력만큼 체력 회복
@@ -300,17 +242,21 @@ def card_attack():
                 my_health += cards_kinds[player_battle_list[i]]['공격력']
             # 상대 편에 카드가 있을 때 해당 카드의 체력을 내 카드의 공격력만큼 감소, 0이 되면 사망
             elif match_battle_list[i] != '':
-                cards_kinds[match_battle_list[i]]['체력'] += cards_kinds[player_battle_list[i]]['공격력']
+                cards_kinds[match_battle_list[i]]['체력'] -= cards_kinds[player_battle_list[i]]['공격력']
                 if cards_kinds[match_battle_list[i]]['체력'] <= 0:
                     match_battle_list.remove(match_battle_list[i])
                     if cards_kinds[match_battle_list[i]]['특성'] == '골왕':
                         bone += 4
                     else:
                         bone += 1
-            else:
-                pass
 
-                # if my_health <= 10:
-                #     print('승리!')
-                #     if my_health < 10:
-                #         hoil += my_health - 10
+
+def win_lose():
+    global hoil
+    if my_health <= 10:
+        print('승리!')
+        if my_health < 10:
+            hoil += my_health - 10
+    else:
+        if my_health > 0:
+            print('패배')

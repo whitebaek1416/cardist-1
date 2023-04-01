@@ -26,6 +26,42 @@ for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_c
 hoil = 0
 
 
+def select_cardpack(select_rare, select_normal, one_random, two_random, three_random):
+    cardpack = []
+    cardpack.append(f'{r.choice(select_rare)}')
+    for i in range(2):
+        cardpack.append(f'{r.choice(select_normal)}')
+    for i in range(2):
+        random_cards = r.randint(1, 3)
+        if random_cards == 1:
+            cardpack.append(f'{r.choice(one_random)}')
+        elif random_cards == 2:
+            cardpack.append(f'{r.choice(two_random)}')
+        elif random_cards == 3:
+            cardpack.append(f'{r.choice(three_random)}')
+    return cardpack
+
+
+def earn_cardpack(buy_pack):
+    cardpack = []
+    if buy_pack == '짐승':
+        cardpack = select_cardpack(animal_card_rare, animal_card_normal, machine_card_normal, ghost_card_normal,
+                        magic_card_normal)
+    elif buy_pack == '기계':
+        cardpack = select_cardpack(machine_card_rare, machine_card_normal, animal_card_normal, ghost_card_normal,
+                        magic_card_normal)
+    elif buy_pack == '망자':
+        cardpack = select_cardpack(ghost_card_rare, ghost_card_normal, animal_card_normal, machine_card_normal,
+                        magic_card_normal)
+    elif buy_pack == '마력':
+        cardpack = select_cardpack(magic_card_rare, magic_card_normal, animal_card_normal, machine_card_normal,
+                        ghost_card_normal)
+    input(f'{cardpack[0]}, {cardpack[1]}, {cardpack[2]}, {cardpack[3]}, {cardpack[4]}')
+    print('너의 콜렉션에 카드가 추가되었다.')
+    for i in cardpack:
+        collection[i] += 1
+
+
 # 시작 덱 결정
 while True:
     starter_card = []
@@ -168,35 +204,35 @@ while True:
                 print(f'{i}: {collection[i]}')
     # 배틀 제작 중
     if action == '배틀':
+        if len(deck) < 20:
+            print('아직 너의 덱은 충분치 않다.')
         energy = 0
         bone = 0
         gem = []
-        if len(deck) < 20:
-            print('덱 미완성')
-            continue
-        battle_deck = deck
-        hand = []
+        cb.start_draw(deck)
         cb.print_battle_plate()
         while True:
             while True:
-                cb.match_set()
-                if input('턴') != '':
+                turn = input('턴 넘기기')
+                if turn == '넘기기':
                     break
-            if energy < 6:
-                energy += 1
-            while True:
-                cb.start_draw(deck)
-                battle_action = input("카드를 놓으려면 '세트'를 입력하세요.")
-                if battle_action == '세트':
-                    cb.card_set()
                 else:
-                    break
-            # 카드가 공격함
-            # 내 체력이 올라감
-            # 10 이상이면 승리
-            # 상대편 카드가 대기열에서 내려옴
-            # 상대 카드가 공격함
-            cb.earn_cardpack('짐승')
+                    cb.match_set()
+            energy += 1
+            cb.mox_search()
+            cb.draw(deck)
+        while True:
+            turn = input('턴 넘기기')
+            if turn == '넘기기':
+                break
+            else:
+                cb.card_set()
+
+        # 카드가 공격함
+        # 내 체력이 올라감
+        # 10 이상이면 승리
+        # 상대편 카드가 대기열에서 내려옴
+        # 상대 카드가 공격함
     # 상인 제작 중
     if action == '상인':
         if hoil != 0:
@@ -221,7 +257,7 @@ while True:
                     break
                 elif buying == '카드팩' and hoil >= 5:
                     random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
-                    cb.earn_cardpack(random_cardpack)
+                    earn_cardpack(random_cardpack)
                     hoil -= 5
                     break
                 else:
