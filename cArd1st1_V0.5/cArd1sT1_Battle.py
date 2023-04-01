@@ -245,10 +245,30 @@ def card_attack():
                 cards_kinds[match_battle_list[i]]['체력'] -= cards_kinds[player_battle_list[i]]['공격력']
                 if cards_kinds[match_battle_list[i]]['체력'] <= 0:
                     match_battle_list.remove(match_battle_list[i])
-                    if cards_kinds[match_battle_list[i]]['특성'] == '골왕':
+
+
+def match_attack():
+    global my_health
+    global bone
+    for i in range(4):
+        if match_battle_list[i] != '':
+            if player_battle_list[i] == '':
+                my_health -= cards_kinds[match_battle_list[i]]['공격력']
+            elif player_battle_list[i] != '':
+                cards_kinds[player_battle_list[i]]['체력'] -= cards_kinds[match_battle_list[i]]['공격력']
+                if cards_kinds[player_battle_list[i]]['체력'] <= 0:
+                    player_battle_list.remove(player_battle_list[i])
+                    if cards_kinds[player_battle_list[i]]['특성'] == '골왕':
                         bone += 4
                     else:
                         bone += 1
+
+
+def match_ready_go():
+   for i in range(4):
+       if match_battle_list[i] != '':
+           match_battle_list[i] = match_ready_list[i]
+           match_ready_list[i] = ''
 
 
 def win_lose():

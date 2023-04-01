@@ -227,13 +227,11 @@ while True:
                 break
             else:
                 cb.card_set()
-
-        # 카드가 공격함
-        # 내 체력이 올라감
-        # 10 이상이면 승리
-        # 상대편 카드가 대기열에서 내려옴
-        # 상대 카드가 공격함
-    # 상인 제작 중
+        cb.card_attack()
+        cb.win_lose()
+        cb.match_ready_go()
+        cb.match_attack()
+    # 상인
     if action == '상인':
         if hoil != 0:
             while True:
