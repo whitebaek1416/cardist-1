@@ -285,7 +285,7 @@ def match_set():
     print_battle_plate()
     set_card = input('대기할 카드를 입력하세요.(카드 이름)')
     card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
-    match_ready_list[card_space] = [set_card, cards_kinds[set_card]]
+    match_ready_list[card_space-1] = set_card
     print_battle_plate()
 
 

@@ -177,7 +177,6 @@ while True:
         battle_deck = deck
         hand = []
         cb.print_battle_plate()
-        cb.start_draw(deck)
         while True:
             while True:
                 cb.match_set()
@@ -186,6 +185,7 @@ while True:
             if energy < 6:
                 energy += 1
             while True:
+                cb.start_draw(deck)
                 battle_action = input("카드를 놓으려면 '세트'를 입력하세요.")
                 if battle_action == '세트':
                     cb.card_set()
@@ -194,6 +194,8 @@ while True:
             # 카드가 공격함
             # 내 체력이 올라감
             # 10 이상이면 승리
+            # 상대편 카드가 대기열에서 내려옴
+            # 상대 카드가 공격함
             cb.earn_cardpack('짐승')
     # 상인 제작 중
     if action == '상인':
