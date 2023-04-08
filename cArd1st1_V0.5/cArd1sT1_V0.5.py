@@ -206,29 +206,29 @@ while True:
     if action == '배틀':
         if len(deck) < 20:
             print('아직 너의 덱은 충분치 않다.')
+            continue
         energy = 0
         bone = 0
         gem = []
         cb.start_draw(deck)
         cb.print_battle_plate()
         while True:
-            while True:
-                turn = input('턴 넘기기')
-                if turn == '넘기기':
-                    break
-                else:
-                    cb.match_set()
-            energy += 1
-            cb.mox_search()
-            cb.draw(deck)
+            turn = input('턴 넘기기')
+            if turn == '넘기기':
+                break
+            else:
+                cb.match_set()
+        energy += 1
+        cb.draw(deck)
         while True:
             turn = input('턴 넘기기')
             if turn == '넘기기':
                 break
             else:
-                cb.card_set()
+                cb.mox_search()
+                energy, bone = cb.card_set(energy, bone, gem)
         cb.card_attack()
-        cb.win_lose()
+        hoil = cb.win_lose(hoil)
         cb.match_ready_go()
         cb.match_attack()
     # 상인
