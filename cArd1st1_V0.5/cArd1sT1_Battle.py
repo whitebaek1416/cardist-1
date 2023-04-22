@@ -105,19 +105,12 @@ cards_kinds = {'거대 크라켄': {'비용': ['피', 1], '공격력': 1, '체�
                '마스터 블린': {'비용': ['보석', ['사파이어', '에메랄드']], '공격력': 0, '체력': 4, '특성': '진정한 학자', '희생 여부': '가능'},
                '마스터 고란즈': {'비용': ['보석', ['루비', '에메랄드']], '공격력': 2, '체력': 6, '특성': '보석 의존증', '희생 여부': '가능'},
                '마스터 오를루': {'비용': ['보석', ['루비', '사파이어']], '공격력': 1, '체력': 1, '특성': ['비행', '약탈자'], '희생 여부': '가능'}}
-match_ready_list = ['', '', '', '']
-match_battle_list = ['', '', '', '']
-player_battle_list = ['', '', '', '']
 hand = []
 gem = []
-my_health = 5
-
-
-# 플레이어의 진행 목록
 deck = []
 
 
-def mox_search():
+def mox_search(player_battle_list):
     global gem
     if '루비 목스' in player_battle_list and '루비' not in gem or '고란즈의 목스' in player_battle_list and '루비' not in gem \
             or '오를루의 목스' in player_battle_list and '루비' not in gem or '위대한 목스' in player_battle_list and '루비' \
@@ -133,7 +126,7 @@ def mox_search():
         gem.append('에메랄드')
 
 
-def print_battle_plate():
+def print_battle_plate(match_ready_list, match_battle_list, player_battle_list):
     print(match_ready_list)
     print(match_battle_list)
     print(player_battle_list)
@@ -151,15 +144,20 @@ def start_draw(deck):
         draw(deck)
 
 
-def card_set(energy, bone, gem):
+def card_set(energy, bone, gem, player_battle_list):
     print(f'에너지: {energy}')
     print(f'뼈: {bone}')
     print(f'보석: {gem}')
     print(*hand)
     # 비용 처리
     while True:
+        if not hand:
+            return energy, bone
         set_card = input('놓을 카드를 입력하세요.(카드 이름)')
-        if set_card not in hand:
+        # 추신: 미래의 나야 자동으로 넘기기 만들어 놓으렴 안 할 것 같지만
+        if set_card == '넘기기':
+            return energy, bone
+        elif set_card not in hand:
             print('정확한 이름을 입력하세요.')
             continue
         else:
@@ -171,10 +169,11 @@ def card_set(energy, bone, gem):
                     can_be_blood = 0
                     for i in range(4):
                         if blood_card_list[i] != '':
-                            if cards_kinds[blood_card_list[i]]['희생 여부'] == '가능' or cards_kinds[blood_card_list[i]]['희생 여부'] == '다중':
+                            if cards_kinds[blood_card_list[i]]['희생 여부'] == '가능' or \
+                                    cards_kinds[blood_card_list[i]]['희생 여부'] == '다중':
                                 can_be_blood += 1
                             elif cards_kinds[blood_card_list[i]]['희생 여부'] == '불가능':
-                                pass
+                                continue
                     if can_be_blood >= need_blood:
                         for i in range(need_blood):
                             print(blood_card_list)
@@ -184,29 +183,31 @@ def card_set(energy, bone, gem):
                                     need_blood -= 1
                                 elif cards_kinds[blood_card_list[blood_card-1]]['희생 여부'] == '가능':
                                     need_blood -= 1
-                                    player_battle_list.remove(player_battle_list[blood_card-1])
+                                    player_battle_list[blood_card-1] = ''
                                     bone += 1
                                 elif cards_kinds[blood_card_list[blood_card-1]]['희생 여부'] == '불가능':
                                     print('이 카드는 희생할 수 없습니다.')
-                                    blood_card_list.remove(blood_card)
-                                blood_card_list.append('')
+                                    blood_card_list.remove(blood_card-1)
+                            else:
+                                print('그곳엔 희생할 것이 없다.')
+                                return energy, bone
+                        break
                     else:
                         print('그것을 내기 위한 피가 부족하다.')
-                        return energy, bone
                 # 비용이 에너지일 때
                 elif cards_kinds[set_card]['비용'][0] == '에너지':
                     if energy >= cards_kinds[set_card]['비용'][1]:
                         energy -= cards_kinds[set_card]['비용'][1]
                     else:
                         print('그것을 내기 위한 에너지가 부족하다.')
-                        return energy, bone
+                        break
                 # 비용이 뼈일 때
                 elif cards_kinds[set_card]['비용'][0] == '뼈':
                     if bone >= cards_kinds[set_card]['비용'][1]:
                         bone -= cards_kinds[set_card]['비용'][1]
                     else:
                         print('그것을 내기 위한 뼈가 부족하다.')
-                        return energy, bone
+                        break
                 # 비용이 보석일 때
                 elif cards_kinds[set_card]['비용'][0] == '보석':
                     need_gem = [cards_kinds[set_card]['비용'][1] for i in range(len(cards_kinds[set_card]['비용']))]
@@ -218,38 +219,40 @@ def card_set(energy, bone, gem):
                         need_gem.remove('에메랄드')
                     if need_gem == []:
                         print('필요한 보석이 없습니다.')
-                        return energy, bone
+                        break
         break
 
     # 놓을 자리 처리
     while True:
-        print_battle_plate()
-        card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
-        if card_space < 1 or card_space > 4:
-            print('정확한 자리를 입력하세요.')
+        print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
+        try:
+            card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
+            if card_space < 1 or card_space > 4:
+                print('정확한 자리를 입력하세요.')
+                continue
+            elif player_battle_list[card_space-1] == '':
+                player_battle_list[card_space-1] = set_card
+                hand.remove(set_card)
+                print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
+            elif player_battle_list[card_space-1] != '':
+                print('이미 카드가 그 자리에 있습니다.')
+            break
+        except:
             continue
-        elif player_battle_list[card_space-1] == '':
-            player_battle_list[card_space-1] = set_card
-            hand.remove(set_card)
-            print_battle_plate()
-        elif player_battle_list[card_space-1] != '':
-            print('이미 카드가 그 자리에 있습니다.')
-        break
 
-    return energy, bone
+    return energy, bone, player_battle_list
 
 
 def match_set():
-    print_battle_plate()
+    print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
     set_card = input('대기할 카드를 입력하세요.(카드 이름)')
     card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
     match_ready_list[card_space-1] = set_card
-    print_battle_plate()
+    print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
+    return match_ready_list
 
 
-def card_attack():
-    global my_health
-    global bone
+def card_attack(my_health, player_battle_list):
     for i in range(4):
         if player_battle_list[i] != '':
             # 상대편에 카드가 없을 때 내 카드의 공격력만큼 체력 회복
@@ -260,9 +263,20 @@ def card_attack():
                 cards_kinds[match_battle_list[i]]['체력'] -= cards_kinds[player_battle_list[i]]['공격력']
                 if cards_kinds[match_battle_list[i]]['체력'] <= 0:
                     match_battle_list.remove(match_battle_list[i])
+    return my_health, match_battle_list
 
 
-def match_attack():
+def match_ready_go():
+    global match_ready_list
+    global match_battle_list
+    for i in range(4):
+        if match_battle_list[i] != '':
+            match_battle_list[i] = match_ready_list[i]
+            match_ready_list[i] = ''
+    return match_ready_list, match_battle_list
+
+
+def match_attack(match_battle_list, player_battle_list):
     global my_health
     global bone
     for i in range(4):
@@ -277,21 +291,17 @@ def match_attack():
                         bone += 4
                     else:
                         bone += 1
+    return player_battle_list
 
 
-def match_ready_go():
-   for i in range(4):
-       if match_battle_list[i] != '':
-           match_battle_list[i] = match_ready_list[i]
-           match_ready_list[i] = ''
-
-
-def win_lose(hoil):
+def win_lose(my_health, hoil):
+    win_lose = False
     if my_health >= 10:
         print('승리!')
-        if my_health < 10:
+        win_lose = True
+        if my_health > 10:
             hoil += my_health - 10
-    else:
-        if my_health > 0:
-            print('패배')
-    return hoil
+    elif my_health < 0:
+        print('패배')
+        win_lose = True
+    return hoil, win_lose

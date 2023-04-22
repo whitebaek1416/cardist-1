@@ -18,12 +18,16 @@ magic_card_normal = ['루비 목스', '사파이어 목스', '에메랄드 목�
                      '파란 마법사', '보석 광인', '유영 마법사', '포스 마법사', '초록 마법사', '견습 현자', '근육 마법사', '자극 마법사',
                      '미식마법사']
 magic_card_rare = ['블린의 목스', '고란즈의 목스', '오를루의 목스', '마스터 블린', '마스터 고란즈', '마스터 오를루']
+match_ready_list = ['', '', '', '']
+match_battle_list = ['', '', '', '']
+player_battle_list = ['', '', '', '']
 normal_cards = animal_card_normal + machine_card_normal + ghost_card_normal + magic_card_normal
 rare_cards = animal_card_rare + machine_card_rare + ghost_card_rare + magic_card_rare
 for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_card_rare + ghost_card_normal + \
          ghost_card_rare + magic_card_normal + magic_card_rare:
     collection[i] = 0
 hoil = 0
+my_health = 5
 
 
 def select_cardpack(select_rare, select_normal, one_random, two_random, three_random):
@@ -207,30 +211,34 @@ while True:
         if len(deck) < 20:
             print('아직 너의 덱은 충분치 않다.')
             continue
+        win_lose = False
         energy = 0
         bone = 0
         gem = []
         cb.start_draw(deck)
-        cb.print_battle_plate()
-        while True:
-            turn = input('턴 넘기기')
-            if turn == '넘기기':
-                break
-            else:
-                cb.match_set()
-        energy += 1
-        cb.draw(deck)
-        while True:
-            turn = input('턴 넘기기')
-            if turn == '넘기기':
-                break
-            else:
-                cb.mox_search()
-                energy, bone = cb.card_set(energy, bone, gem)
-        cb.card_attack()
-        hoil = cb.win_lose(hoil)
-        cb.match_ready_go()
-        cb.match_attack()
+        while not win_lose:
+            cb.print_battle_plate()
+            while True:
+                turn = input('턴 넘기기')
+                if turn == '넘기기':
+                    break
+                else:
+                    cb.match_set()
+            energy += 1
+            cb.draw(deck)
+            while True:
+                turn = input('턴 넘기기')
+                if turn == '넘기기':
+                    break
+                else:
+                    cb.mox_search()
+                    energy, bone = cb.card_set(energy, bone, gem)
+            my_health = cb.card_attack(my_health)
+            print(f'{my_health} : {10 - my_health}')
+            hoil, win_lose = cb.win_lose(my_health, hoil)
+            cb.match_ready_go()
+            cb.match_attack()
+            hoil, win_lose = cb.win_lose(my_health, hoil)
     # 상인
     if action == '상인':
         if hoil != 0:
