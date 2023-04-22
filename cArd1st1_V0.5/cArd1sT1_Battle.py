@@ -106,8 +106,6 @@ cards_kinds = {'거대 크라켄': {'비용': ['피', 1], '공격력': 1, '체�
                '마스터 고란즈': {'비용': ['보석', ['루비', '에메랄드']], '공격력': 2, '체력': 6, '특성': '보석 의존증', '희생 여부': '가능'},
                '마스터 오를루': {'비용': ['보석', ['루비', '사파이어']], '공격력': 1, '체력': 1, '특성': ['비행', '약탈자'], '희생 여부': '가능'}}
 hand = []
-gem = []
-deck = []
 
 
 def mox_search(player_battle_list):
@@ -132,19 +130,18 @@ def print_battle_plate(match_ready_list, match_battle_list, player_battle_list):
     print(player_battle_list)
 
 
-def draw(deck):
-    battle_deck = deck
+def draw(battle_deck):
     drawed_card = r.choice(battle_deck)
     hand.append(drawed_card)
     battle_deck.remove(drawed_card)
 
 
-def start_draw(deck):
+def start_draw(battle_deck):
     for i in range(3):
-        draw(deck)
+        draw(battle_deck)
 
 
-def card_set(energy, bone, gem, player_battle_list):
+def card_set(energy, bone, gem, match_ready_list, match_battle_list, player_battle_list):
     print(f'에너지: {energy}')
     print(f'뼈: {bone}')
     print(f'보석: {gem}')
@@ -152,11 +149,11 @@ def card_set(energy, bone, gem, player_battle_list):
     # 비용 처리
     while True:
         if not hand:
-            return energy, bone
+            return energy, bone, player_battle_list
         set_card = input('놓을 카드를 입력하세요.(카드 이름)')
         # 추신: 미래의 나야 자동으로 넘기기 만들어 놓으렴 안 할 것 같지만
         if set_card == '넘기기':
-            return energy, bone
+            return energy, bone, player_battle_list
         elif set_card not in hand:
             print('정확한 이름을 입력하세요.')
             continue
@@ -190,7 +187,6 @@ def card_set(energy, bone, gem, player_battle_list):
                                     blood_card_list.remove(blood_card-1)
                             else:
                                 print('그곳엔 희생할 것이 없다.')
-                                return energy, bone
                         break
                     else:
                         print('그것을 내기 위한 피가 부족하다.')
@@ -243,7 +239,7 @@ def card_set(energy, bone, gem, player_battle_list):
     return energy, bone, player_battle_list
 
 
-def match_set():
+def match_set(match_ready_list, match_battle_list, player_battle_list):
     print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
     set_card = input('대기할 카드를 입력하세요.(카드 이름)')
     card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
@@ -252,7 +248,7 @@ def match_set():
     return match_ready_list
 
 
-def card_attack(my_health, player_battle_list):
+def card_attack(my_health, match_battle_list, player_battle_list):
     for i in range(4):
         if player_battle_list[i] != '':
             # 상대편에 카드가 없을 때 내 카드의 공격력만큼 체력 회복
@@ -266,19 +262,15 @@ def card_attack(my_health, player_battle_list):
     return my_health, match_battle_list
 
 
-def match_ready_go():
-    global match_ready_list
-    global match_battle_list
+def match_ready_go(match_ready_list, match_battle_list):
     for i in range(4):
-        if match_battle_list[i] != '':
+        if match_battle_list[i] == '':
             match_battle_list[i] = match_ready_list[i]
             match_ready_list[i] = ''
     return match_ready_list, match_battle_list
 
 
-def match_attack(match_battle_list, player_battle_list):
-    global my_health
-    global bone
+def match_attack(my_health, bone, match_battle_list, player_battle_list):
     for i in range(4):
         if match_battle_list[i] != '':
             if player_battle_list[i] == '':
@@ -291,7 +283,7 @@ def match_attack(match_battle_list, player_battle_list):
                         bone += 4
                     else:
                         bone += 1
-    return player_battle_list
+    return my_health, bone, player_battle_list
 
 
 def win_lose(my_health, hoil):
