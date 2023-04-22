@@ -216,7 +216,7 @@ while True:
         bone = 0
         gem = []
         battle_deck = deck
-        cb.start_draw(deck)
+        cb.start_draw(battle_deck)
         while not win_lose:
             cb.print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
             while True:
@@ -226,7 +226,7 @@ while True:
                 else:
                     cb.match_set(match_ready_list, match_battle_list, player_battle_list)
             energy += 1
-            cb.draw(deck)
+            cb.draw(battle_deck)
             while True:
                 turn = input("턴 넘기기 시 '1'을 입력.")
                 if turn == '1':
@@ -247,7 +247,7 @@ while True:
                 print('원하시는 물건이 있으시다면...')
                 print('랜덤한 카드팩: 포일 5 / 랜덤한 일반 카드: 포일 1 / 랜덤한 레어 카드: 포일 3')
                 print(f'호일: {hoil}개')
-                buying = input('구매 항목: 일반 카드, 레어 카드, 카드팩')
+                buying = input('구매 항목: 일반 카드, 레어 카드, 카드팩, 나가기')
                 if buying == '1' and hoil >= 1:
                     random_card_normal = r.choice(normal_cards)
                     print(random_card_normal)
@@ -264,6 +264,8 @@ while True:
                     random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
                     earn_cardpack(random_cardpack)
                     hoil -= 5
+                    break
+                elif buying == '4':
                     break
                 else:
                     print('그런 물건은 취급하지 않습니다만...')

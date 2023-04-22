@@ -150,9 +150,8 @@ def card_set(energy, bone, gem, match_ready_list, match_battle_list, player_batt
     while True:
         if not hand:
             return energy, bone, player_battle_list
-        set_card = input('놓을 카드를 입력하세요.(카드 이름)')
-        # 추신: 미래의 나야 자동으로 넘기기 만들어 놓으렴 안 할 것 같지만
-        if set_card == '넘기기':
+        set_card = input("놓을 카드를 입력하세요.(카드 이름) 턴 넘길 땐 '1'을 입력.")
+        if set_card == '1':
             return energy, bone, player_battle_list
         elif set_card not in hand:
             print('정확한 이름을 입력하세요.')
