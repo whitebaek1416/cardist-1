@@ -211,14 +211,14 @@ while True:
         if len(deck) < 20:
             print('아직 너의 덱은 충분치 않다.')
             continue
-        win_lose = False
-        max_energy = 1
+        win = False
+        max_energy = 0
         energy = 0
         bone = 0
         gem = []
         battle_deck = deck
         cb.start_draw(battle_deck)
-        while not win_lose:
+        while not win:
             cb.print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
             while True:
                 turn = input("턴 넘기기 시 '1'을 입력.")
@@ -226,7 +226,7 @@ while True:
                     break
                 else:
                     cb.match_set(match_ready_list, match_battle_list, player_battle_list)
-            if max_energy <= 6:
+            if max_energy < 6:
                 max_energy += 1
             energy = max_energy
             cb.draw(battle_deck)
@@ -235,15 +235,15 @@ while True:
                 if turn == '1':
                     break
                 else:
-                    cb.mox_search(player_battle_list)
+                    gem = cb.mox_search(gem, player_battle_list)
                     energy, bone, player_battle_list = cb.card_set(energy, bone, gem, match_ready_list, match_battle_list, player_battle_list)
-            my_health, match_battle_list = cb.card_attack(my_health, match_battle_list, player_battle_list)
+            bone, my_health, match_battle_list, player_battle_list = cb.card_attack(bone, my_health, match_battle_list, player_battle_list)
             print(f'{my_health} : {10 - my_health}')
-            hoil, win_lose = cb.win_lose(my_health, hoil)
+            hoil, win = cb.win_lose(my_health, hoil)
             match_ready_list, match_battle_list = cb.match_ready_go(match_ready_list, match_battle_list)
-            my_health, bone, player_battle_list = cb.match_attack(my_health, bone, match_battle_list, player_battle_list)
+            my_health, bone, match_battle_list, player_battle_list = cb.match_attack(my_health, bone, match_battle_list, player_battle_list)
             print(f'{my_health} : {10 - my_health}')
-            hoil, win_lose = cb.win_lose(my_health, hoil)
+            hoil, win = cb.win_lose(my_health, hoil)
     # 상인
     if action == '6':
         if hoil != 0:

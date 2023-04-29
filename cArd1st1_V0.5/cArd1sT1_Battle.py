@@ -108,8 +108,7 @@ cards_kinds = {'거대 크라켄': {'비용': ['피', 1], '공격력': 1, '체�
 hand = []
 
 
-def mox_search(player_battle_list):
-    global gem
+def mox_search(gem, player_battle_list):
     if '루비 목스' in player_battle_list and '루비' not in gem or '고란즈의 목스' in player_battle_list and '루비' not in gem \
             or '오를루의 목스' in player_battle_list and '루비' not in gem or '위대한 목스' in player_battle_list and '루비' \
             not in gem:
@@ -122,6 +121,7 @@ def mox_search(player_battle_list):
             in gem or '고란즈의 목스' in player_battle_list and '에메랄드' not in gem or '위대한 목스' in player_battle_list and\
             '에메랄드' not in gem:
         gem.append('에메랄드')
+    return gem
 
 
 def print_battle_plate(match_ready_list, match_battle_list, player_battle_list):
@@ -142,9 +142,7 @@ def start_draw(battle_deck):
 
 
 def card_set(energy, bone, gem, match_ready_list, match_battle_list, player_battle_list):
-    print(f'에너지: {energy}')
-    print(f'뼈: {bone}')
-    print(f'보석: {gem}')
+    print(f'에너지: {energy}, 뼈: {bone}, 보석: {gem}')
     print(*hand)
     # 비용 처리
     while True:
@@ -189,32 +187,39 @@ def card_set(energy, bone, gem, match_ready_list, match_battle_list, player_batt
                         break
                     else:
                         print('그것을 내기 위한 피가 부족하다.')
+                        return energy, bone, player_battle_list
                 # 비용이 에너지일 때
                 elif cards_kinds[set_card]['비용'][0] == '에너지':
                     if energy >= cards_kinds[set_card]['비용'][1]:
                         energy -= cards_kinds[set_card]['비용'][1]
+                        print(f'에너지: {energy}')
                     else:
                         print('그것을 내기 위한 에너지가 부족하다.')
-                        break
+                        return energy, bone, player_battle_list
                 # 비용이 뼈일 때
                 elif cards_kinds[set_card]['비용'][0] == '뼈':
                     if bone >= cards_kinds[set_card]['비용'][1]:
                         bone -= cards_kinds[set_card]['비용'][1]
+                        print(f'뼈: {bone}')
                     else:
                         print('그것을 내기 위한 뼈가 부족하다.')
-                        break
+                        return energy, bone, player_battle_list
                 # 비용이 보석일 때
                 elif cards_kinds[set_card]['비용'][0] == '보석':
-                    need_gem = [cards_kinds[set_card]['비용'][1] for i in range(len(cards_kinds[set_card]['비용']))]
-                    if '루비' in gem:
+                    print(f'보석: {gem}')
+                    need_gem = [cards_kinds[set_card]['비용'][1] for _ in range(len(cards_kinds[set_card]['비용'][1]))]
+                    if '루비' in gem and '루비' in need_gem:
                         need_gem.remove('루비')
-                    if '사파이어' in gem:
+                    elif '사파이어' in gem and '사파이어' in need_gem:
                         need_gem.remove('사파이어')
-                    if '에메랄드' in gem:
+                    elif '에메랄드' in gem and '에메랄드' in need_gem:
                         need_gem.remove('에메랄드')
-                    if need_gem == []:
-                        print('필요한 보석이 없습니다.')
-                        break
+                    else:
+                        for i in range(len(cards_kinds[set_card]['비용'][1])):
+                            print(i)
+                            if need_gem[i] not in gem:
+                                print('그것에 필요한 보석이 없다.')
+                                return energy, bone, player_battle_list
         break
 
     # 놓을 자리 처리
@@ -229,6 +234,7 @@ def card_set(energy, bone, gem, match_ready_list, match_battle_list, player_batt
                 player_battle_list[card_space-1] = set_card
                 hand.remove(set_card)
                 print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
+                print(f'에너지: {energy}, 뼈: {bone}, 보석: {gem}')
             elif player_battle_list[card_space-1] != '':
                 print('이미 카드가 그 자리에 있습니다.')
             break
@@ -247,7 +253,7 @@ def match_set(match_ready_list, match_battle_list, player_battle_list):
     return match_ready_list
 
 
-def card_attack(my_health, match_battle_list, player_battle_list):
+def card_attack(bone, my_health, match_battle_list, player_battle_list):
     for i in range(4):
         if player_battle_list[i] != '':
             # 상대편에 카드가 없을 때 내 카드의 공격력만큼 체력 회복
@@ -257,8 +263,11 @@ def card_attack(my_health, match_battle_list, player_battle_list):
             elif match_battle_list[i] != '':
                 cards_kinds[match_battle_list[i]]['체력'] -= cards_kinds[player_battle_list[i]]['공격력']
                 if cards_kinds[match_battle_list[i]]['체력'] <= 0:
-                    match_battle_list.remove(match_battle_list[i])
-    return my_health, match_battle_list
+                    match_battle_list[i] = ''
+            if cards_kinds[player_battle_list[i]]['특성'] == '취약성':
+                player_battle_list[i] = ''
+                bone += 1
+    return bone, my_health, match_battle_list, player_battle_list
 
 
 def match_ready_go(match_ready_list, match_battle_list):
@@ -277,8 +286,11 @@ def match_attack(my_health, bone, match_battle_list, player_battle_list):
             elif player_battle_list[i] != '':
                 cards_kinds[player_battle_list[i]]['체력'] -= cards_kinds[match_battle_list[i]]['공격력']
                 if cards_kinds[player_battle_list[i]]['체력'] <= 0:
-                    player_battle_list.remove(player_battle_list[i])
-    return my_health, bone, player_battle_list
+                    player_battle_list[i] = ''
+                    bone += 1
+            if cards_kinds[match_battle_list[i]]['특성'] == '취약성':
+                match_battle_list[i] = ''
+    return my_health, bone, match_battle_list, player_battle_list
 
 
 def win_lose(my_health, hoil):
