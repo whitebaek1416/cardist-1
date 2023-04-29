@@ -212,6 +212,7 @@ while True:
             print('아직 너의 덱은 충분치 않다.')
             continue
         win_lose = False
+        max_energy = 1
         energy = 0
         bone = 0
         gem = []
@@ -225,7 +226,9 @@ while True:
                     break
                 else:
                     cb.match_set(match_ready_list, match_battle_list, player_battle_list)
-            energy += 1
+            if max_energy <= 6:
+                max_energy += 1
+            energy = max_energy
             cb.draw(battle_deck)
             while True:
                 turn = input("턴 넘기기 시 '1'을 입력.")
@@ -238,7 +241,8 @@ while True:
             print(f'{my_health} : {10 - my_health}')
             hoil, win_lose = cb.win_lose(my_health, hoil)
             match_ready_list, match_battle_list = cb.match_ready_go(match_ready_list, match_battle_list)
-            cb.match_attack(my_health, bone, match_battle_list, player_battle_list)
+            my_health, bone, player_battle_list = cb.match_attack(my_health, bone, match_battle_list, player_battle_list)
+            print(f'{my_health} : {10 - my_health}')
             hoil, win_lose = cb.win_lose(my_health, hoil)
     # 상인
     if action == '6':

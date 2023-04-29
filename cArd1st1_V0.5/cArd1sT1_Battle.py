@@ -278,10 +278,6 @@ def match_attack(my_health, bone, match_battle_list, player_battle_list):
                 cards_kinds[player_battle_list[i]]['체력'] -= cards_kinds[match_battle_list[i]]['공격력']
                 if cards_kinds[player_battle_list[i]]['체력'] <= 0:
                     player_battle_list.remove(player_battle_list[i])
-                    if cards_kinds[player_battle_list[i]]['특성'] == '골왕':
-                        bone += 4
-                    else:
-                        bone += 1
     return my_health, bone, player_battle_list
 
 
