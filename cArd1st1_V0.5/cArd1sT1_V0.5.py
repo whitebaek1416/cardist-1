@@ -23,6 +23,7 @@ match_battle_list = ['', '', '', '']
 player_battle_list = ['', '', '', '']
 normal_cards = animal_card_normal + machine_card_normal + ghost_card_normal + magic_card_normal
 rare_cards = animal_card_rare + machine_card_rare + ghost_card_rare + magic_card_rare
+all_cards = normal_cards + rare_cards
 for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_card_rare + ghost_card_normal + \
          ghost_card_rare + magic_card_normal + magic_card_rare:
     collection[i] = 0
@@ -237,7 +238,7 @@ while True:
                 else:
                     gem = cb.mox_search(gem, player_battle_list)
                     energy, bone, player_battle_list = cb.card_set(energy, bone, gem, match_ready_list, match_battle_list, player_battle_list)
-            bone, my_health, match_battle_list, player_battle_list = cb.card_attack(bone, my_health, match_battle_list, player_battle_list)
+            hand, bone, my_health, match_battle_list, player_battle_list = cb.card_attack(hand, bone, my_health, match_battle_list, player_battle_list)
             print(f'{my_health} : {10 - my_health}')
             hoil, win = cb.win_lose(my_health, hoil)
             match_ready_list, match_battle_list = cb.match_ready_go(match_ready_list, match_battle_list)
