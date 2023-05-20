@@ -32,8 +32,7 @@ my_health = 5
 
 
 def select_cardpack(select_rare, select_normal, one_random, two_random, three_random):
-    cardpack = []
-    cardpack.append(f'{r.choice(select_rare)}')
+    cardpack = [f'{r.choice(select_rare)}']
     for i in range(2):
         cardpack.append(f'{r.choice(select_normal)}')
     for i in range(2):
@@ -217,8 +216,9 @@ while True:
         energy = 0
         bone = 0
         gem = []
+        hand = []
         battle_deck = deck
-        cb.start_draw(battle_deck)
+        battle_deck, hand = cb.start_draw(battle_deck, hand)
         while not win:
             cb.print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
             while True:
@@ -227,18 +227,20 @@ while True:
                     break
                 else:
                     cb.match_set(match_ready_list, match_battle_list, player_battle_list)
+            bone, player_battle_list = cb.my_turn_change(bone, player_battle_list)
             if max_energy < 6:
                 max_energy += 1
             energy = max_energy
-            cb.draw(battle_deck)
+            battle_deck, hand = cb.draw(battle_deck, hand)
             while True:
                 turn = input("턴 넘기기 시 '1'을 입력.")
                 if turn == '1':
                     break
                 else:
                     gem = cb.mox_search(gem, player_battle_list)
-                    energy, bone, player_battle_list = cb.card_set(energy, bone, gem, match_ready_list, match_battle_list, player_battle_list)
-            hand, bone, my_health, match_battle_list, player_battle_list = cb.card_attack(hand, bone, my_health, match_battle_list, player_battle_list)
+                    hand, energy, bone, player_battle_list, battle_deck = cb.card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle_list, player_battle_list, battle_deck)
+            match_battle_list = cb.match_turn_change(match_battle_list)
+            hand, bone, my_health, match_battle_list, player_battle_list = cb.card_attack(hand, bone, my_health, match_battle_list, player_battle_list, all_cards)
             print(f'{my_health} : {10 - my_health}')
             hoil, win = cb.win_lose(my_health, hoil)
             match_ready_list, match_battle_list = cb.match_ready_go(match_ready_list, match_battle_list)
