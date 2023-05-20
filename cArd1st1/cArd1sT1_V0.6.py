@@ -1,7 +1,7 @@
 import random as r
-import cArd1sT1_Battle as cb
+import cArd1sT1_Abi1tY5 as ca
+import cArd1sT1_8aTt1e as cb
 from collections import defaultdict
-
 deck = []
 collection = defaultdict(int)
 animal_card_normal = ['거대 크라켄', '거울 촉수', '종 촉수', '패 촉수', '고양이', '늑대', '아기 늑대', '다람쥐', '다람쥐 공', '담비', '두더지', '무스', '새끼 무스', '물총새', '민물 거북',
@@ -208,42 +208,53 @@ while True:
                 print(f'{i}: {collection[i]}')
     # 배틀 제작 중
     if action == '5':
+        # 덱 개수 제한
         if len(deck) < 20:
             print('아직 너의 덱은 충분치 않다.')
             continue
-        win = False
-        max_energy = 0
-        energy = 0
-        bone = 0
-        gem = []
-        hand = []
-        battle_deck = deck
-        battle_deck, hand = cb.start_draw(battle_deck, hand)
+        # 함수 초기 설정
+        win = False  # 승리 여부 체크
+        max_energy = 0  # 최대 에너지
+        energy = 0  # 소지한 에너지
+        bone = 0  # 소지한 뼈
+        gem = []  # 소지한 보석
+        hand = []  # 패
+        # 덱 및 패의 기본 카드 설정
+        battle_deck = deck  # 덱
+        battle_deck, hand = cb.start_draw(battle_deck, hand)  # 기본 3장 드로우
+        # 배틀 메인 루프
         while not win:
-            cb.print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
+            cb.print_battle_plate(match_ready_list, match_battle_list, player_battle_list)  # 배틀 판 출력
+            # 상대 턴(대기)
             while True:
                 turn = input("턴 넘기기 시 '1'을 입력.")
                 if turn == '1':
                     break
                 else:
-                    cb.match_set(match_ready_list, match_battle_list, player_battle_list)
-            bone, player_battle_list = cb.my_turn_change(bone, player_battle_list)
-            if max_energy < 6:
+                    bone, match_ready_list = cb.match_set(bone, gem, match_ready_list, match_battle_list, player_battle_list)
+            # 턴 경과 시 발동 특성
+            bone, player_battle_list = ca.my_turn_change(bone, player_battle_list)  # 성장, 뼈 채굴자 특성 발동
+            if max_energy < 6:  # 에너지/최대 에너지 증가
                 max_energy += 1
             energy = max_energy
-            battle_deck, hand = cb.draw(battle_deck, hand)
+            battle_deck, hand = cb.draw(battle_deck, hand)  # 패 드로우
+            # 내 턴
             while True:
                 turn = input("턴 넘기기 시 '1'을 입력.")
                 if turn == '1':
                     break
                 else:
-                    gem = cb.mox_search(gem, player_battle_list)
+                    # 보석 현황 파악 및 카드 설치
+                    gem = cb.my_mox_search(gem, player_battle_list)
                     hand, energy, bone, player_battle_list, battle_deck = cb.card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle_list, player_battle_list, battle_deck)
-            match_battle_list = cb.match_turn_change(match_battle_list)
+            # 내 공격
             hand, bone, my_health, match_battle_list, player_battle_list = cb.card_attack(hand, bone, my_health, match_battle_list, player_battle_list, all_cards)
             print(f'{my_health} : {10 - my_health}')
             hoil, win = cb.win_lose(my_health, hoil)
+            # 상대 턴 경과 시 발동 특성
+            match_battle_list = ca.match_turn_change(match_battle_list)
             match_ready_list, match_battle_list = cb.match_ready_go(match_ready_list, match_battle_list)
+            # 상대의 공격
             my_health, bone, match_battle_list, player_battle_list = cb.match_attack(my_health, bone, match_battle_list, player_battle_list)
             print(f'{my_health} : {10 - my_health}')
             hoil, win = cb.win_lose(my_health, hoil)
@@ -252,9 +263,8 @@ while True:
         if hoil != 0:
             while True:
                 print('원하시는 물건이 있으시다면...')
-                print('랜덤한 카드팩: 포일 5 / 랜덤한 일반 카드: 포일 1 / 랜덤한 레어 카드: 포일 3')
                 print(f'호일: {hoil}개')
-                buying = input('구매 항목: 일반 카드, 레어 카드, 카드팩, 나가기')
+                buying = input('[구매 항목: 랜덤 일반 카드(포일 1개), 랜덤 레어 카드(포일 3개), 랜덤 카드팩(포일 5개)], 나가기')
                 if buying == '1' and hoil >= 1:
                     random_card_normal = r.choice(normal_cards)
                     print(random_card_normal)
