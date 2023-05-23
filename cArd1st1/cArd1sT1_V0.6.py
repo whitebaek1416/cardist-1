@@ -246,7 +246,7 @@ while True:
                 else:
                     # 보석 현황 파악 및 카드 설치
                     gem = cb.my_mox_search(gem, player_battle_list)
-                    hand, energy, bone, player_battle_list, battle_deck = cb.card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle_list, player_battle_list, battle_deck)
+                    hand, energy, max_energy, bone, player_battle_list, match_battle_list, battle_deck = cb.card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle_list, player_battle_list, battle_deck)
             # 내 공격
             hand, bone, my_health, match_battle_list, player_battle_list = cb.card_attack(hand, bone, my_health, match_battle_list, player_battle_list, all_cards)
             print(f'{my_health} : {10 - my_health}')
@@ -258,33 +258,66 @@ while True:
             my_health, bone, match_battle_list, player_battle_list = cb.match_attack(my_health, bone, match_battle_list, player_battle_list)
             print(f'{my_health} : {10 - my_health}')
             hoil, win = cb.win_lose(my_health, hoil)
-    # 상인
+    # 상점 방문
     if action == '6':
+        have_uro = False
+        if collection['우로보로스'] >= 1:
+            have_uro = True
         if hoil != 0:
             while True:
                 print('원하시는 물건이 있으시다면...')
                 print(f'호일: {hoil}개')
-                buying = input('[구매 항목: 랜덤 일반 카드(포일 1개), 랜덤 레어 카드(포일 3개), 랜덤 카드팩(포일 5개)], 나가기')
-                if buying == '1' and hoil >= 1:
-                    random_card_normal = r.choice(normal_cards)
-                    print(random_card_normal)
-                    collection[random_card_normal] += 1
-                    hoil -= 1
-                    break
-                elif buying == '2' and hoil >= 3:
-                    random_card_rare = r.choice(rare_cards)
-                    print(random_card_rare)
-                    collection[random_card_rare] += 1
-                    hoil -= 3
-                    break
-                elif buying == '3' and hoil >= 5:
-                    random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
-                    earn_cardpack(random_cardpack)
-                    hoil -= 5
-                    break
-                elif buying == '4':
-                    break
-                else:
-                    print('그런 물건은 취급하지 않습니다만...')
-                    continue
-            print('이용해주셔서 감사합니다.')
+                if not have_uro:
+                    buying = input('[구매 항목: 랜덤 일반 카드(포일 1개), 랜덤 레어 카드(포일 3개), 랜덤 카드팩(포일 5개), 우로보로스(포일 8개)], 나가기')
+                    if buying == '1' and hoil >= 1:
+                        random_card_normal = r.choice(normal_cards)
+                        print(random_card_normal)
+                        collection[random_card_normal] += 1
+                        hoil -= 1
+                        break
+                    elif buying == '2' and hoil >= 3:
+                        random_card_rare = r.choice(rare_cards)
+                        print(random_card_rare)
+                        collection[random_card_rare] += 1
+                        hoil -= 3
+                        break
+                    elif buying == '3' and hoil >= 5:
+                        random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
+                        earn_cardpack(random_cardpack)
+                        hoil -= 5
+                        break
+                    elif buying == '4' and hoil >= 8:
+                        collection['우로보로스'] += 1
+                        hoil -= 8
+                        break
+                    elif buying == '5':
+                        print('이용해주셔서 감사합니다.')
+                        break
+                    else:
+                        print('그런 물건은 취급하지 않습니다만...')
+                        continue
+                elif have_uro:
+                    buying = input('[구매 항목: 랜덤 일반 카드(포일 1개), 랜덤 레어 카드(포일 3개), 랜덤 카드팩(포일 5개)], 나가기')
+                    if buying == '1' and hoil >= 1:
+                        random_card_normal = r.choice(normal_cards)
+                        print(random_card_normal)
+                        collection[random_card_normal] += 1
+                        hoil -= 1
+                        break
+                    elif buying == '2' and hoil >= 3:
+                        random_card_rare = r.choice(rare_cards)
+                        print(random_card_rare)
+                        collection[random_card_rare] += 1
+                        hoil -= 3
+                        break
+                    elif buying == '3' and hoil >= 5:
+                        random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
+                        earn_cardpack(random_cardpack)
+                        hoil -= 5
+                        break
+                    elif buying == '4':
+                        print('이용해주셔서 감사합니다.')
+                        break
+                    else:
+                        print('그런 물건은 취급하지 않습니다만...')
+                        continue

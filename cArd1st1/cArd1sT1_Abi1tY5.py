@@ -119,15 +119,17 @@ def abilty_growth(set_card):
 
 def my_turn_change(bone, player_battle_list):
     for i in range(4):
-        if cards_kinds[player_battle_list[i]]['특성'] == '뼈 채굴자':
-            bone += 1
-        if cards_kinds[player_battle_list[i]]['특성'] == '성장':
-            player_battle_list[i] = abilty_growth(player_battle_list[i])
+        if player_battle_list[i] != '':
+            if cards_kinds[player_battle_list[i]]['특성'] == '뼈 채굴자':
+                bone += 1
+            if cards_kinds[player_battle_list[i]]['특성'] == '성장':
+                player_battle_list[i] = abilty_growth(player_battle_list[i])
     return bone, player_battle_list
 
 
 def match_turn_change(match_battle_list):
     for i in range(4):
-        if cards_kinds[match_battle_list[i]]['특성'] == '성장':
-            match_battle_list[i] = abilty_growth(match_battle_list[i])
+        if match_battle_list[i] != '':
+            if cards_kinds[match_battle_list[i]]['특성'] == '성장':
+                match_battle_list[i] = abilty_growth(match_battle_list[i])
     return match_battle_list

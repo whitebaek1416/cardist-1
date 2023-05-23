@@ -154,7 +154,7 @@ def draw(battle_deck, hand):
 
 def start_draw(battle_deck, hand):
     for i in range(3):
-        hand = draw(battle_deck, hand)
+        battle_deck, hand = draw(battle_deck, hand)
     return battle_deck, hand
 
 
@@ -249,21 +249,21 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
             print('정확한 자리를 입력하세요.')
             continue
         elif player_battle_list[card_space-1] == '':
-            player_battle_list[card_space-1] = [player_battle_list[card_space-1], cards_kinds[player_battle_list[card_space-1]]['공격력'], cards_kinds[player_battle_list[card_space-1]]['체력']]
-            hand.remove(player_battle_list[card_space-1])
+            set_card = [set_card, cards_kinds[set_card]['공격력'], cards_kinds[set_card]['체력']]
+            hand.remove(set_card)
             # 수호자
             for i in range(4):
                 if cards_kinds[match_battle_list[i]]['특성'] == '수호자' and match_battle_list[card_space-1] == '':
                     player_battle_list[card_space-1] = match_battle_list[card_space-1]
                     match_battle_list[i] = ''
-            if cards_kinds[player_battle_list[card_space-1]]['특성'] == '배터리 운반자':
+            if cards_kinds[set_card]['특성'] == '배터리 운반자':
                 max_energy += 1
                 energy += 1
-            if cards_kinds[player_battle_list[card_space-1]]['특성'] == '손재주':
+            if cards_kinds[set_card]['특성'] == '손재주':
                 hand = []
                 battle_deck, hand = start_draw(battle_deck, hand)
                 battle_deck, hand = draw(battle_deck, hand)
-            if cards_kinds[player_battle_list[card_space-1]]['특성'] == '심리적 뵤기':
+            if cards_kinds[set_card]['특성'] == '심리적 뵤기':
                 moxes = 0
                 for i in range(len(hand)):
                     if hand[i] == '루비 목스' or hand[i] == '사파이어 목스' or hand[i] == '에메랄드 목스' or \
@@ -272,7 +272,7 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
                         moxes += 1
                 for i in range(moxes):
                     battle_deck, hand = draw(battle_deck, hand)
-            if cards_kinds[player_battle_list[card_space-1]]['특성'] == '폭탄 바주카':
+            if cards_kinds[set_card]['특성'] == '폭탄 바주카':
                 for i in range(4):
                     if player_battle_list[i] == '':
                         player_battle_list[i] = ['봄버봇', cards_kinds['봄버봇']['공격력'], cards_kinds['봄버봇']['체력']]
@@ -284,6 +284,7 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
         elif player_battle_list[card_space-1] != '':
             print('이미 카드가 그 자리에 있습니다.')
         break
+    print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
     return hand, energy, max_energy, bone, player_battle_list, match_battle_list, battle_deck
 
 
