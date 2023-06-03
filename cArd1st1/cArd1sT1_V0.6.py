@@ -69,10 +69,10 @@ def earn_cardpack(buy_pack):
 # 시작 덱 결정
 while True:
     starter_card = []
-    choose_deck = input('당신의 시작 덱을 선택하시오.(짐승, 기계, 망자, 마력)')
+    choose_deck = input('당신의 시작 덱을 선택하시오.(짐승(1), 기계(2), 망자(3), 마력(4))')
     # 각각 시작 덱을 확인 후 콜렉션에 카드 추가
     if choose_deck == '1':
-        choose_animal_deck = input('너의 야망은 레쉬를 대체해 짐승의 필경자가 되는 것인가?(덱을 가진다, 내버려둔다)')
+        choose_animal_deck = input('너의 야망은 레쉬를 대체해 짐승의 필경자가 되는 것인가?(덱을 가진다(1), 내버려둔다(2))')
         if choose_animal_deck == '1':
             starter_card = ['다람쥐'] * 6 + ['담비'] * 5 + ['코요테'] * 5 + ['늑대'] * 4
             for i in starter_card:
@@ -82,7 +82,7 @@ while True:
         elif choose_animal_deck == '2':
             pass
     elif choose_deck == '2':
-        choose_machine_deck = input('너의 야망은 P03을 대체해 기술의 필경자가 되는 것인가?(덱을 가진다, 내버려둔다)')
+        choose_machine_deck = input('너의 야망은 P03을 대체해 기술의 필경자가 되는 것인가?(덱을 가진다(1), 내버려둔다(2))')
         if choose_machine_deck == '1':
             starter_card = ['L33pB0t'] * 5 + ['49er'] * 4 + ['자동 장치'] * 4 + ['두꺼운 드로이드'] * 4 + ['스팀봇'] * 3
             for i in starter_card:
@@ -92,7 +92,7 @@ while True:
         elif choose_machine_deck == '2':
             pass
     elif choose_deck == '3':
-        choose_ghost_deck = input('너의 야망은 그리모라를 대체해 망자의 필경자가 되는 것인가?(덱을 가진다, 내버려둔다)')
+        choose_ghost_deck = input('너의 야망은 그리모라를 대체해 망자의 필경자가 되는 것인가?(덱을 가진다(1), 내버려둔다(2))')
         if choose_ghost_deck == '1':
             starter_card = ['해골'] * 5 + ['뼈 채굴자'] * 4 + ['드라우그르'] * 4 + ['좀비'] * 4 + ['프랭크 & 스타인'] * 3
             for i in starter_card:
@@ -102,7 +102,7 @@ while True:
         elif choose_ghost_deck == '2':
             pass
     elif choose_deck == '4':
-        choose_magic_deck = input('너의 야망은 매그니피쿠스를 대체해 마력의 필경자가 되는 것인가?(덱을 가진다, 내버려둔다)')
+        choose_magic_deck = input('너의 야망은 매그니피쿠스를 대체해 마력의 필경자가 되는 것인가?(덱을 가진다(1), 내버려둔다(2))')
         if choose_magic_deck == '1':
             starter_card = ['루비 목스'] * 2 + ['사파이어 목스'] * 2 + ['에메랄드 목스'] * 2 + ['견습 마법사'] * 2 + \
                            ['루비 골렘'] * 2 + ['마법 기사'] * 2 + ['보석 광인'] * 2 + ['유영 마법사'] * 2 + ['초록 마법사'] * 2 + \
@@ -119,7 +119,7 @@ while True:
 # 본 게임
 while True:
     print(f'호일: {hoil}개')
-    action = input('행동을 입력하시오.(덱 추가, 덱 제거, 덱 보기, 콜렉션 보기, 배틀(제작 중), 상인)')
+    action = input('행동을 입력하시오.(덱 추가(1), 덱 제거(2), 덱 보기(3), 콜렉션 보기(4), 배틀(제작 중)(5), 상인(6))')
     # 가진 콜렉션에서 카드를 덱에 넣음
     if action == '1':
         print('덱:')
@@ -129,8 +129,8 @@ while True:
             for i in collection:
                 if collection[i] > 0:
                     print(f'{i}: {collection[i]}')
-            deck_card = input("카드 이름을 입력하면 콜렉션에 있는 카드가 덱에 들어옵니다.('자동 완성'을 입력하면 무작위 카드가 덱에 들어옵니다."
-                              " '완료'를 입력하면 덱 추가를 종료합니다.)")
+            deck_card = input("카드 이름을 입력하면 콜렉션에 있는 카드가 덱에 들어옵니다.('자동 완성'(1)을 입력하면 무작위 카드가 덱에 들어옵니다."
+                              " '완료'(2)를 입력하면 덱 추가를 종료합니다.)")
             if deck_card == '2':
                 # 만약 덱이 20장 이상이라면 완료.
                 if len(deck) >= 20:
@@ -169,14 +169,16 @@ while True:
             print(*deck)
     # 가진 콜렉션에서 카드를 덱에서 뺌
     if action == '2':
+        if not deck:
+            break
         print('덱:')
         print(*deck)
         while True:
             for i in collection:
                 if not collection[i] == 0:
                     print(f'{i}: {collection[i]}')
-            deck_card = input("카드 이름을 입력하면 덱에 있는 카드가 콜렉션으로 돌아갑니다.('전체 제거'를 입력하면 모든 카드가 콜렉션으로"
-                              " 돌아갑니다. '완료'를 입력하면 덱 제거를 종료합니다.)")
+            deck_card = input("카드 이름을 입력하면 덱에 있는 카드가 콜렉션으로 돌아갑니다.('전체 제거'(1)를 입력하면 모든 카드가 콜렉션으로"
+                              " 돌아갑니다. '완료'(2)를 입력하면 덱 제거를 종료합니다.)")
             if deck_card == '2':
                 print('덱:')
                 print(*deck)
@@ -227,7 +229,7 @@ while True:
             cb.print_battle_plate(match_ready_list, match_battle_list, player_battle_list)  # 배틀 판 출력
             # 상대 턴(대기)
             while True:
-                turn = input("턴 넘기기 시 '1'을 입력.")
+                turn = input("(상대) 턴 넘기기 시 '1'을 입력.")
                 if turn == '1':
                     break
                 else:
@@ -240,7 +242,7 @@ while True:
             battle_deck, hand = cb.draw(battle_deck, hand)  # 패 드로우
             # 내 턴
             while True:
-                turn = input("턴 넘기기 시 '1'을 입력.")
+                turn = input("(내) 턴 넘기기 시 '1'을 입력.")
                 if turn == '1':
                     break
                 else:
