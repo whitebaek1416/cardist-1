@@ -170,7 +170,7 @@ while True:
     # 가진 콜렉션에서 카드를 덱에서 뺌
     if action == '2':
         if not deck:
-            break
+            continue
         print('덱:')
         print(*deck)
         while True:
