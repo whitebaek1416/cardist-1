@@ -1,5 +1,4 @@
 import random as r
-import cArd1sT1_Abi1tY5 as ca
 import cArd1sT1_8aTt1e as cb
 from collections import defaultdict
 deck = []
@@ -235,7 +234,7 @@ while True:
                 else:
                     bone, match_ready_list = cb.match_set(bone, gem, match_ready_list, match_battle_list, player_battle_list)
             # 턴 경과 시 발동 특성
-            bone, player_battle_list = ca.my_turn_change(bone, player_battle_list)  # 성장, 뼈 채굴자 특성 발동
+            bone, player_battle_list = cb.my_turn_change(bone, player_battle_list)  # 성장, 뼈 채굴자 특성 발동
             if max_energy < 6:  # 에너지/최대 에너지 증가
                 max_energy += 1
             energy = max_energy
@@ -254,10 +253,10 @@ while True:
             print(f'{my_health} : {10 - my_health}')
             hoil, win = cb.win_lose(my_health, hoil)
             # 상대 턴 경과 시 발동 특성
-            match_battle_list = ca.match_turn_change(match_battle_list)
+            match_battle_list = cb.match_turn_change(match_battle_list)
             match_ready_list, match_battle_list = cb.match_ready_go(match_ready_list, match_battle_list)
             # 상대의 공격
-            my_health, bone, match_battle_list, player_battle_list = cb.match_attack(my_health, bone, match_battle_list, player_battle_list)
+            my_health, hand, bone, match_battle_list, player_battle_list = cb.match_attack(my_health, hand, bone, match_battle_list, player_battle_list)
             print(f'{my_health} : {10 - my_health}')
             hoil, win = cb.win_lose(my_health, hoil)
     # 상점 방문
