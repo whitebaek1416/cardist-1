@@ -10,7 +10,7 @@ class Cards:
 # '강철 덫': Cards('강철 덫', '없음', 0, 5, '강철 덫'),
 
 
-cards_kinds = {'강철 덫': {'비용': '없음', '공격력': 0, '체력': 5, '특성': '강철 덫'},
+cards_kinds = {'강철 덫': {'비용': '없음', '공격력': 0, '체력': 5, '특성': '강철 덫', '희생 여부': '가능'},
                '거대 크라켄': {'비용': ['피', 1], '공격력': 1, '체력': 1, '특성': '크라켄 잠수', '희생 여부': '가능'},
                '거울 촉수': {'비용': ['피', 1], '공격력': ['ㄱㅓㅇㅜㄹㅜㅇㅓㄱ', 0], '체력': 3, '특성': '없음', '희생 여부': '가능'},
                '종 촉수': {'비용': ['피', 2], '공격력': ['타종수', 0], '체력': 3, '특성': '없음', '희생 여부': '가능'},
@@ -24,6 +24,7 @@ cards_kinds = {'강철 덫': {'비용': '없음', '공격력': 0, '체력': 5, '
                '담비': {'비용': ['피', 1], '공격력': 1, '체력': 2, '특성': '없음', '희생 여부': '가능'},
                '두더지': {'비용': ['피', 1], '공격력': 0, '체력': 4, '특성': '굴살이', '희생 여부': '가능'},
                '두더지인간': {'비용': ['피', 1], '공격력': 0, '체력': 6, '특성': ['굴살이', '비행 방어'], '희생 여부': '가능'},
+               '들쥐': {'비용': ['피', 2], '공격력': 2, '체력': 2, '특성': '생식력', '희생 여부': '가능'},
                '무스': {'비용': ['피', 2], '공격력': 2, '체력': 4, '특성': '이동', '희생 여부': '가능'},
                '새끼 무스': {'비용': ['피', 1], '공격력': 1, '체력': 1, '특성': ['이동', '성장'], '희생 여부': '가능'},
                '물총새': {'비용': ['피', 2], '공격력': 1, '체력': 1, '특성': ['잠수', '비행'], '희생 여부': '가능'},
@@ -35,20 +36,21 @@ cards_kinds = {'강철 덫': {'비용': '없음', '공격력': 0, '체력': 5, '
                '사마귀신': {'비용': ['피', 1], '공격력': 1, '체력': 1, '특성': '삼분공격', '희생 여부': '가능'},
                '살무사': {'비용': ['피', 2], '공격력': 1, '체력': 1, '특성': '즉사', '희생 여부': '가능'},
                '스컹크': {'비용': ['피', 1], '공격력': 0, '체력': 3, '특성': '구린내', '희생 여부': '가능'},
-               '포자스컹크': {'비용': ['피', 1], '공격력': 0, '체력': 3, '특성': ['구린내', '구린내'], '희생 여부': '가능'},
                '알파': {'비용': ['피', 1], '공격력': 1, '체력': 2, '특성': '리더', '희생 여부': '가능'},
                '우라율리': {'비용': ['피', 4], '공격력': 7, '체력': 7, '특성': '없음', '희생 여부': '가능'},
-               '우로보로스': {'비용': ['피', 2], '공격력': 133, '체력': 133, '특성': '불사', '희생 여부': '가능'},
+               '우로보로스': {'비용': ['피', 2], '공격력': 1, '체력': 1, '특성': '불사', '희생 여부': '가능'},
                '전기뱀장어': {'비용': ['피', 1], '공격력': 1, '체력': 1, '특성': ['잠수', '배터리 운반자'], '희생 여부': '가능'},
                '코요테': {'비용': ['피', 1], '공격력': 2, '체력': 1, '특성': '없음', '희생 여부': '가능'},
                '큰까마귀': {'비용': ['피', 2], '공격력': 2, '체력': 3, '특성': '비행', '희생 여부': '가능'},
+               '큰까마귀 알': {'비용': ['피', 1], '공격력': 0, '체력': 2, '특성': '없음', '희생 여부': '가능'},
+               '포자쥐': {'비용': ['피', 2], '공격력': 2, '체력': 2, '특성': ['생식력', '생식력'], '희생 여부': '가능'},
                '토끼': {'비용': '없음', '공격력': 0, '체력': 1, '특성': '없음'}, '희생 여부': '가능',
                '토끼굴': {'비용': ['피', 1], '공격력': 0, '체력': 3, '특성': '토끼굴', '희생 여부': '불가능'},
                '향유고래': {'비용': ['피', 2], '공격력': 2, '체력': 2, '특성': '잠수', '희생 여부': '가능'},
                '황소개구리': {'비용': ['피', 1], '공격력': 1, '체력': 2, '특성': '비행 방어', '희생 여부': '가능'},
                '회색곰': {'비용': ['피', 3], '공격력': 4, '체력': 6, '특성': '없음', '희생 여부': '가능'},
                '감시 드론': {'비용': ['에너지', 1], '공격력': 0, '체력': 1, '특성': '보초', '희생 여부': '가능'},
-               '감시 포자': {'비용': ['에너지', 1], '공격력': 0, '체력': 1, '특성': ['보초', '보초'], '희생 여부': '가능'},
+               # '감시 포자': {'비용': ['에너지', 1], '공격력': 0, '체력': 1, '특성': ['보초', '보초'], '희생 여부': '가능'},
                '무효화 전도체': {'비용': ['에너지', 1], '공격력': 0, '체력': 1, '특성': '무효화 전도체', '희생 여부': '가능'},
                'L33pB0t': {'비용': ['에너지', 1], '공격력': 0, '체력': 2, '특성': '비행 방어', '희생 여부': '가능'},
                '고GI봇': {'비용': ['에너지', 2], '공격력': 0, '체력': 1, '특성': '고귀한 희생', '희생 여부': '가능'},
@@ -70,11 +72,11 @@ cards_kinds = {'강철 덫': {'비용': '없음', '공격력': 0, '체력': 5, '
                '볼트하운드': {'비용': ['에너지', 6], '공격력': 2, '체력': 2, '특성': '수호자', '희생 여부': '가능'},
                '스팀봇': {'비용': ['에너지', 6], '공격력': 2, '체력': 2, '특성': '없음', '희생 여부': '가능'},
                '해골': {'비용': '없음', '공격력': 1, '체력': 1, '특성': '취약성', '희생 여부': '가능'},
-               '뼈 무더기': {'비용': '없음', '공격력': 0, '체력': 1, '특성': '팽창', '희생 여부': '가능'},
+               # '뼈 무더기': {'비용': '없음', '공격력': 0, '체력': 1, '특성': '팽창', '희생 여부': '가능'},
                '드라우그르': {'비용': ['뼈', 1], '공격력': 0, '체력': 1, '특성': '해빙', '희생 여부': '불가능'},
                '뼈 굴착자': {'비용': ['뼈', 1], '공격력': 0, '체력': 3, '특성': '뼈 파내는 자', '희생 여부': '가능'},
-               '포자굴착자': {'비용': ['뼈', 1], '공격력': 0, '체력': 3, '특성': ['뼈 파내는 자', '뼈 파내는 자'], '희생 여부': '가능'},
-               '도굴꾼': {'비용': ['뼈', 2], '공격력': 0, '체력': 2, '특성': '도굴', '희생 여부': '가능'},
+               # '포자굴착자': {'비용': ['뼈', 1], '공격력': 0, '체력': 3, '특성': ['뼈 파내는 자', '뼈 파내는 자'], '희생 여부': '가능'},
+               # '도굴꾼': {'비용': ['뼈', 2], '공격력': 0, '체력': 2, '특성': '도굴', '희생 여부': '가능'},
                '망령': {'비용': ['뼈', 2], '공격력': 3, '체력': 1, '특성': '취약성', '희생 여부': '가능'},
                '밴시': {'비용': ['뼈', 2], '공격력': 1, '체력': 1, '특성': '비행', '희생 여부': '가능'},
                '뼈 마법사': {'비용': ['뼈', 2], '공격력': 4, '체력': 1, '특성': ['보석 의존증', '취약성'], '희생 여부': '가능'},
@@ -82,6 +84,7 @@ cards_kinds = {'강철 덫': {'비용': '없음', '공격력': 0, '체력': 5, '
                '네크로맨서': {'비용': ['뼈', 3], '공격력': 1, '체력': 2, '특성': '이중 사망', '희생 여부': '가능'},
                '부서진 은화(왼쪽)': {'비용': ['뼈', 3], '공격력': 0, '체력': 2, '특성': '가시', '희생 여부': '가능'},
                '부서진 은화(오른쪽)': {'비용': ['뼈', 3], '공격력': 0, '체력': 2, '특성': '골왕', '희생 여부': '가능'},
+               # '뼈의 왕의 뿔피리': {'비용': ['뼈', 3], '공격력': 1, '체력': 1, '특성': '뼈 프린터', '희생 여부': '가능'},
                '석관': {'비용': ['뼈', 4], '공격력': 0, '체력': 2, '특성': '성장', '희생 여부': '가능'},
                '유령선': {'비용': ['뼈', 4], '공격력': 0, '체력': 1, '특성': ['잠수', '해골 선원'], '희생 여부': '가능'},
                '익사한 영혼': {'비용': ['뼈', 4], '공격력': 1, '체력': 1, '특성': ['잠수', '즉사'], '희생 여부': '가능'},
@@ -105,16 +108,15 @@ cards_kinds = {'강철 덫': {'비용': '없음', '공격력': 0, '체력': 5, '
                '루비 골렘': {'비용': ['보석', '루비'], '공격력': 1, '체력': 1, '특성': '루비 심장', '희생 여부': '가능'},
                '마법 기사': {'비용': ['보석', '루비'], '공격력': 1, '체력': 3, '특성': '보석 의존증', '희생 여부': '가능'},
                '파란 마법사': {'비용': ['보석', '사파이어'], '공격력': 0, '체력': 1, '특성': '심리적 뵤기', '희생 여부': '가능'},
-               '파란 포자마법사': {'비용': ['보석', '사파이어'], '공격력': 0, '체력': 1, '특성': ['심리적 뵤기', '심리적 뵤기'], '희생 여부': '가능'},
+               # '파란 포자마법사': {'비용': ['보석', '사파이어'], '공격력': 0, '체력': 1, '특성': ['심리적 뵤기', '심리적 뵤기'], '희생 여부': '가능'},
                '보석 광인': {'비용': ['보석', '사파이어'], '공격력': 2, '체력': 1, '특성': '보석 의존증', '희생 여부': '가능'},
                '유영 마법사': {'비용': ['보석', '사파이어'], '공격력': 1, '체력': 1, '특성': '비행', '희생 여부': '가능'},
                '포스 마법사': {'비용': ['보석', '사파이어'], '공격력': 0, '체력': 1, '특성': ['역겨움', '보석 의존증'], '희생 여부': '가능'},
                '초록 마법사': {'비용': ['보석', '에메랄드'], '공격력': '에메랄드', '체력': 2, '특성': '없음', '희생 여부': '가능'},
                '견습 현자': {'비용': ['보석', '에메랄드'], '공격력': 1, '체력': 2, '특성': '없음', '희생 여부': '가능'},
-               '근육 마법사': {'비용': ['보석', '에메랄드'], '공격력': 1, '체력': 1, '특성': '밀치기', '희생 여부': '가능'},
-               '자극 마법사': {'비용': ['보석', '에메랄드'], '공격력': 0, '체력': 1, '특성': '자극', '희생 여부': '가능'},
-               '미식 마법사': {'비용': ['보석', '에메랄드'], '공격력': 0, '체력': 2, '특성': '팽창', '희생 여부': '가능'},
-               '마스터 블린': {'비용': ['보석', ['사파이어', '에메랄드']], '공격력': 0, '체력': 4, '특성': '진정한 학자', '희생 여부': '가능'},
+               # '자극 마법사': {'비용': ['보석', '에메랄드'], '공격력': 0, '체력': 1, '특성': '자극', '희생 여부': '가능'},
+               # '미식 마법사': {'비용': ['보석', '에메랄드'], '공격력': 0, '체력': 2, '특성': '팽창', '희생 여부': '가능'},
+               # '마스터 블린': {'비용': ['보석', ['사파이어', '에메랄드']], '공격력': 0, '체력': 4, '특성': '진정한 학자', '희생 여부': '가능'},
                '마스터 고란즈': {'비용': ['보석', ['루비', '에메랄드']], '공격력': 2, '체력': 6, '특성': '보석 의존증', '희생 여부': '가능'},
                '마스터 오를루': {'비용': ['보석', ['루비', '사파이어']], '공격력': 1, '체력': 1, '특성': ['비행', '약탈자'], '희생 여부': '가능'}}
 
@@ -127,6 +129,46 @@ def abilty_growth(set_card):
     elif set_card == '석관':
         set_card = ['미라 제왕', cards_kinds['미라 제왕']['공격력'], set_card[2] + cards_kinds['미라 제왕']['체력']]
     return set_card
+
+
+def player_change_attack(player_battle_list, match_battle_list):
+    for i in player_battle_list:
+        if cards_kinds[i]['특성'] == '구린내' and match_battle_list[i][1] <= 1:
+            match_battle_list[i][1] -= 1
+        elif cards_kinds[i]['특성'] == '리더':
+            try:
+                player_battle_list[i-1][1] += 1
+            except:
+                pass
+            try:
+                player_battle_list[i+1][1] += 1
+            except:
+                pass
+        elif cards_kinds[i]['특성'] == '목스 전원':
+            for j in player_battle_list:
+                if cards_kinds[i]['특성'] == '루비 목스' or cards_kinds[i]['특성'] == '사파이어 목스' or cards_kinds[i]['특성'] == '에메랄드 목스' or cards_kinds[i]['특성'] == '위대한 목스':
+                    j[1] += 1
+    return player_battle_list, match_battle_list
+
+
+def match_change_attack(player_battle_list, match_battle_list):
+    for i in match_battle_list:
+        if cards_kinds[i]['특성'] == '구린내' and player_battle_list[i][1] <= 1:
+            player_battle_list[i][1] -= 1
+        elif cards_kinds[i]['특성'] == '리더':
+            try:
+                match_battle_list[i-1][1] += 1
+            except:
+                pass
+            try:
+                match_battle_list[i+1][1] += 1
+            except:
+                pass
+        elif cards_kinds[i]['특성'] == '목스 전원':
+            for j in match_battle_list:
+                if cards_kinds[i]['특성'] == '루비 목스' or cards_kinds[i]['특성'] == '사파이어 목스' or cards_kinds[i]['특성'] == '에메랄드 목스' or cards_kinds[i]['특성'] == '위대한 목스':
+                    j[1] += 1
+    return player_battle_list, match_battle_list
 
 
 def my_turn_change(bone, player_battle_list):
@@ -150,25 +192,52 @@ def match_turn_change(match_battle_list):
     return match_battle_list
 
 
-def player_conducting(player_battle_list):
+def player_conducting(player_battle_list, energy, max_energy):
     conductor = ['공격 전도체', '무효화 전도체', '생산 전도체', '에너지 전도체']
     conductor_where = []
     conductor_what = []
     for i in range(4):
-        if cards_kinds[player_battle_list[i][0]]['특성'] in conductor and len(conductor_where) < 2:
+        if player_battle_list[i] == '':
+            continue
+        elif cards_kinds[player_battle_list[i]]['특성'] in conductor and len(conductor_where) < 2:
             conductor_where.append(i)
             conductor_what.append(cards_kinds[player_battle_list[i][0]]['특성'])
-    for i in player_battle_list[conductor_where[0]:conductor_where[1]+1]:
-        if i == '':
-            if '생산 전도체' in conductor_what:
-                i = ['L33pB0t', cards_kinds['L33pB0t']['공격력'], cards_kinds['L33pB0t']['체력']]
-        elif i != '':
-            if '공격 전도체' in conductor_what:
-                i[1] += 1
-            elif '무효화 전도체' in conductor_what:
-                pass
-            elif '에너지 전도체' in conductor_what:
-                energy = max_energy
+            for i in player_battle_list[conductor_where[0]:conductor_where[1]+1]:
+                if i == '':
+                    if '생산 전도체' in conductor_what:
+                        i = ['L33pB0t', cards_kinds['L33pB0t']['공격력'], cards_kinds['L33pB0t']['체력']]
+                elif i != '':
+                    if '공격 전도체' in conductor_what:
+                        i[1] += 1
+                    elif '무효화 전도체' in conductor_what:
+                        pass
+                    elif '에너지 전도체' in conductor_what:
+                        energy = max_energy
+    return player_battle_list, energy, max_energy
+
+
+def match_conducting(match_battle_list, energy, max_energy):
+    conductor = ['공격 전도체', '무효화 전도체', '생산 전도체', '에너지 전도체']
+    conductor_where = []
+    conductor_what = []
+    for i in range(4):
+        if match_battle_list[i] == '':
+            continue
+        elif cards_kinds[match_battle_list[i]]['특성'] in conductor and len(conductor_where) <= 2:
+            conductor_where.append(i)
+            conductor_what.append(cards_kinds[match_battle_list[i][0]]['특성'])
+            for i in match_battle_list[conductor_where[0]:conductor_where[1]+1]:
+                if i == '':
+                    if '생산 전도체' in conductor_what:
+                        i = ['L33pB0t', cards_kinds['L33pB0t']['공격력'], cards_kinds['L33pB0t']['체력']]
+                elif i != '':
+                    if '공격 전도체' in conductor_what:
+                        i[1] += 1
+                    elif '무효화 전도체' in conductor_what:
+                        pass
+                    elif '에너지 전도체' in conductor_what:
+                        energy = max_energy
+    return match_battle_list, energy, max_energy
 
 
 def my_mox_search(gem, player_battle_list):
@@ -351,6 +420,8 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
                         moxes += 1
                 for i in range(moxes):
                     battle_deck, hand = draw(battle_deck, hand)
+            if cards_kinds[set_card]['특성'] == '생식력':
+                hand.append('들쥐')
             if cards_kinds[set_card]['특성'] == '폭탄 바주카':
                 for i in range(4):
                     if player_battle_list[i] == '':
@@ -390,6 +461,7 @@ def match_set(bone, gem, match_ready_list, match_battle_list, player_battle_list
 
 
 def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, all_cards):
+    attack_moves = ['다람쥐 분만', '밀치기', '이동', '해골 선원']
     for i in range(4):
         if player_battle_list[i] != '':
             # 특수 공격력
@@ -408,7 +480,9 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, al
                     if '굴살이' in cards_kinds[player_battle_list[i][0]]['특성'] and player_battle_list[j] == '':
                         player_battle_list[j] = player_battle_list[i]
                         player_battle_list[i] = ''
-                my_health += player_battle_list[i][1]
+                else:
+                    my_health += player_battle_list[i][1]
+            # 다른 특성들
             elif match_battle_list[i] != '':
                 # 특성 파뤼
                 if cards_kinds[player_battle_list[i][0]]['특성'] == '비행':
@@ -419,10 +493,10 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, al
                             hand.append(r.choice(all_cards))
                 elif cards_kinds[player_battle_list[i][0]]['특성'] == '잠수' or cards_kinds[player_battle_list[i]]['특성'] == '크라켄 잠수':
                     my_health += match_battle_list[i][1]
-                elif cards_kinds[match_battle_list[i][0]]['특성'] == '즉사':
+                elif cards_kinds[player_battle_list[i][0]]['특성'] == '즉사':
                     match_battle_list[i] = ''
                     bone += 1
-                elif cards_kinds[match_battle_list[i][0]]['특성'] == '이분공격':
+                elif cards_kinds[player_battle_list[i][0]]['특성'] == '이분공격':
                     try:
                         match_battle_list[i-1][2] -= player_battle_list[i][1]
                     except:
@@ -431,7 +505,7 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, al
                         match_battle_list[i+1][2] -= player_battle_list[i][1]
                     except:
                         continue
-                elif cards_kinds[match_battle_list[i][0]]['특성'] == '삼분공격':
+                elif cards_kinds[player_battle_list[i][0]]['특성'] == '삼분공격':
                     try:
                         match_battle_list[i-1][2] -= player_battle_list[i][1]
                     except:
@@ -446,41 +520,107 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, al
                     bone += 1
                 elif cards_kinds[match_battle_list[i][0]]['특성'] == '루비 심장':
                     match_battle_list[i] = ['루비 목스', cards_kinds['루비 목스']['공격력'], cards_kinds['루비 목스']['체력']]
+                elif cards_kinds[match_battle_list[i][0]]['특성'] == '가시':
+                    player_battle_list[i][2] -= 1
+                elif cards_kinds[match_battle_list[i][0]]['특성'] == '역겨움':
+                    player_battle_list[i][2] -= 0
                 # 데미지 계산
                 else:
+                    # 체력 계산
                     match_battle_list[i][2] -= player_battle_list[i][1]
-                    if match_battle_list[i][2] <= 0:
-                        match_battle_list[i] = ''
-                        if cards_kinds[match_battle_list[i][0]]['특성'] == '루비 심장':
-                            player_battle_list[i] = ['루비 목스', cards_kinds['루비 목스']['공격력'], cards_kinds['루비 목스']['체력']]
-                        elif cards_kinds[player_battle_list[i][0]]['특성'] == '취약성':
-                            player_battle_list[i] = ''
-                            bone += 1
-                        elif cards_kinds[player_battle_list[i][0]]['특성'] == '폭탄':
-                            try:
-                                match_battle_list[i-1][2] -= 10
-                                if match_battle_list[i-1][2] <= 0:
-                                    match_battle_list[i] = ''
-                                    bone += 1
-                            except:
-                                continue
-                            try:
-                                match_battle_list[i+1][2] -= 10
-                                if match_battle_list[i+1][2] <= 0:
-                                    match_battle_list[i] = ''
-                                    bone += 1
-                            except:
-                                continue
-                            try:
-                                player_battle_list[i][2] -= 10
-                                if player_battle_list[i][2] <= 0:
+                    # 이동 특성
+                    if cards_kinds[i]['특성'] in attack_moves:
+                        move_direction = r.choice(['left', 'right'])
+                        if cards_kinds[i]['특성'] == '다람쥐 분만':
+                            if move_direction == 'left':
+                                if player_battle_list[i-1] == '':
+                                    player_battle_list[i-1] = player_battle_list[i]
+                                    player_battle_list[i] = ['다람쥐', cards_kinds['다람쥐']['공격력'], cards_kinds['다람쥐']['체력']]
+                                elif player_battle_list[i - 1] == '':
+                                    player_battle_list[i+1] = player_battle_list[i]
+                                    player_battle_list[i] = ['다람쥐', cards_kinds['다람쥐']['공격력'], cards_kinds['다람쥐']['체력']]
+                                else:
+                                    pass
+                            elif move_direction == 'right':
+                                if player_battle_list[i+1] == '':
+                                    player_battle_list[i+1] = player_battle_list[i]
+                                    player_battle_list[i] = ['다람쥐', cards_kinds['다람쥐']['공격력'], cards_kinds['다람쥐']['체력']]
+                                elif player_battle_list[i+1] == '':
+                                    player_battle_list[i-1] = player_battle_list[i]
+                                    player_battle_list[i] = ['다람쥐', cards_kinds['다람쥐']['공격력'], cards_kinds['다람쥐']['체력']]
+                                else:
+                                    pass
+                        elif cards_kinds[i]['특성'] == '이동':
+                            if move_direction == 'left':
+                                if player_battle_list[i-1] == '':
+                                    player_battle_list[i-1] = player_battle_list[i]
                                     player_battle_list[i] = ''
-                                    bone += 1
-                            except:
-                                continue
-                        elif cards_kinds[match_battle_list[i][0]]['특성'] == '해빙':
-                            if match_battle_list[i][0] == '드라우그르':
-                                match_battle_list[i] = ['드라우그르', cards_kinds['드라우그르']['공격력'], cards_kinds['드라우그르']['체력']]
+                                elif player_battle_list[i-1] != '':
+                                    player_battle_list[i+1] = player_battle_list[i]
+                                    player_battle_list[i] = ''
+                                else:
+                                    pass
+                            elif move_direction == 'right':
+                                if player_battle_list[i+1] == '':
+                                    player_battle_list[i+1] = player_battle_list[i]
+                                    player_battle_list[i] = ''
+                                elif player_battle_list[i+1] != '':
+                                    player_battle_list[i-1] = player_battle_list[i]
+                                    player_battle_list[i] = ''
+                                else:
+                                    pass
+                        elif cards_kinds[i]['특성'] == '해골 선원':
+                            if move_direction == 'left':
+                                if player_battle_list[i-1] == '':
+                                    player_battle_list[i-1] = player_battle_list[i]
+                                    player_battle_list[i] = ['해골', cards_kinds['해골']['공격력'], cards_kinds['해골']['체력']]
+                                elif player_battle_list[i-1] == '':
+                                    player_battle_list[i+1] = player_battle_list[i]
+                                    player_battle_list[i] = ['해골', cards_kinds['해골']['공격력'], cards_kinds['해골']['체력']]
+                                else:
+                                    pass
+                            elif move_direction == 'right':
+                                if player_battle_list[i+1] == '':
+                                    player_battle_list[i+1] = player_battle_list[i]
+                                    player_battle_list[i] = ['해골', cards_kinds['해골']['공격력'], cards_kinds['해골']['체력']]
+                                elif player_battle_list[i+1] == '':
+                                    player_battle_list[i-1] = player_battle_list[i]
+                                    player_battle_list[i] = ['해골', cards_kinds['해골']['공격력'], cards_kinds['해골']['체력']]
+                                else:
+                                    pass
+                        # 카드 사망 시
+                        if match_battle_list[i][2] <= 0:
+                            match_battle_list[i] = ''
+                    if cards_kinds[match_battle_list[i][0]]['특성'] == '루비 심장':
+                        player_battle_list[i] = ['루비 목스', cards_kinds['루비 목스']['공격력'], cards_kinds['루비 목스']['체력']]
+                    elif cards_kinds[player_battle_list[i][0]]['특성'] == '취약성':
+                        player_battle_list[i] = ''
+                        bone += 1
+                    elif cards_kinds[player_battle_list[i][0]]['특성'] == '폭탄':
+                        try:
+                            match_battle_list[i-1][2] -= 10
+                            if match_battle_list[i-1][2] <= 0:
+                                match_battle_list[i] = ''
+                                bone += 1
+                        except:
+                            continue
+                        try:
+                            match_battle_list[i+1][2] -= 10
+                            if match_battle_list[i+1][2] <= 0:
+                                match_battle_list[i] = ''
+                                bone += 1
+                        except:
+                            continue
+                        try:
+                            player_battle_list[i][2] -= 10
+                            if player_battle_list[i][2] <= 0:
+                                player_battle_list[i] = ''
+                                bone += 1
+                        except:
+                            continue
+                    elif cards_kinds[match_battle_list[i][0]]['특성'] == '해빙':
+                        if match_battle_list[i][0] == '드라우그르':
+                            match_battle_list[i] = ['드라우그르', cards_kinds['드라우그르']['공격력'], cards_kinds['드라우그르']['체력']]
     return hand, bone, my_health, match_battle_list, player_battle_list
 
 
@@ -493,12 +633,13 @@ def match_ready_go(match_ready_list, match_battle_list):
 
 
 def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
+    attack_moves = ['다람쥐 분만', '밀치기', '이동', '해골 선원']
     for i in range(4):
         if match_battle_list[i] != '':
             if player_battle_list[i] == '':
                 my_health -= match_battle_list[i][1]
+            # 특성 파뤼 2탄
             elif player_battle_list[i] != '':
-                # 특성 파뤼 2탄
                 if cards_kinds[match_battle_list[i][0]]['특성'] == '비행':
                     if cards_kinds[match_battle_list[i]]['특성'] == '비행 방어':
                         player_battle_list[i][2] -= match_battle_list[i][1]
@@ -528,13 +669,84 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
                         match_battle_list[i+1][2] -= player_battle_list[i][1]
                     except:
                         continue
+                elif cards_kinds[player_battle_list[i][0]]['특성'] == '가시':
+                    match_battle_list[i][2] -= 1
+                elif cards_kinds[player_battle_list[i][0]]['특성'] == '역겨움':
+                    match_battle_list[i][2] -= 0
+                elif cards_kinds[player_battle_list[i][0]]['특성'] == '토끼굴':
+                    hand.append('토끼')
                 # 데미지 계산
                 else:
+                    # 체력 계산
                     player_battle_list[i][2] -= match_battle_list[i][1]
+                    # 이동 특성
+                    if cards_kinds[i]['특성'] in attack_moves:
+                        move_direction = r.choice(['left', 'right'])
+                        if cards_kinds[i]['특성'] == '다람쥐 분만':
+                            if move_direction == 'left':
+                                if match_battle_list[i-1] == '':
+                                    match_battle_list[i-1] = match_battle_list[i]
+                                    match_battle_list[i] = ['다람쥐', cards_kinds['다람쥐']['공격력'], cards_kinds['다람쥐']['체력']]
+                                elif match_battle_list[i - 1] == '':
+                                    match_battle_list[i+1] = match_battle_list[i]
+                                    match_battle_list[i] = ['다람쥐', cards_kinds['다람쥐']['공격력'], cards_kinds['다람쥐']['체력']]
+                                else:
+                                    pass
+                            elif move_direction == 'right':
+                                if match_battle_list[i+1] == '':
+                                    match_battle_list[i+1] = match_battle_list[i]
+                                    match_battle_list[i] = ['다람쥐', cards_kinds['다람쥐']['공격력'], cards_kinds['다람쥐']['체력']]
+                                elif match_battle_list[i+1] == '':
+                                    match_battle_list[i-1] = match_battle_list[i]
+                                    match_battle_list[i] = ['다람쥐', cards_kinds['다람쥐']['공격력'], cards_kinds['다람쥐']['체력']]
+                                else:
+                                    pass
+                        elif cards_kinds[i]['특성'] == '이동':
+                            if move_direction == 'left':
+                                if match_battle_list[i-1] == '':
+                                    match_battle_list[i-1] = match_battle_list[i]
+                                    match_battle_list[i] = ''
+                                elif match_battle_list[i-1] != '':
+                                    match_battle_list[i+1] = match_battle_list[i]
+                                    match_battle_list[i] = ''
+                                else:
+                                    pass
+                            elif move_direction == 'right':
+                                if match_battle_list[i+1] == '':
+                                    match_battle_list[i+1] = match_battle_list[i]
+                                    match_battle_list[i] = ''
+                                elif match_battle_list[i+1] != '':
+                                    match_battle_list[i-1] = match_battle_list[i]
+                                    match_battle_list[i] = ''
+                                else:
+                                    pass
+                        elif cards_kinds[i]['특성'] == '해골 선원':
+                            if move_direction == 'left':
+                                if match_battle_list[i-1] == '':
+                                    match_battle_list[i-1] = match_battle_list[i]
+                                    match_battle_list[i] = ['해골', cards_kinds['해골']['공격력'], cards_kinds['해골']['체력']]
+                                elif match_battle_list[i-1] == '':
+                                    match_battle_list[i+1] = match_battle_list[i]
+                                    match_battle_list[i] = ['해골', cards_kinds['해골']['공격력'], cards_kinds['해골']['체력']]
+                                else:
+                                    pass
+                            elif move_direction == 'right':
+                                if match_battle_list[i+1] == '':
+                                    match_battle_list[i+1] = match_battle_list[i]
+                                    match_battle_list[i] = ['해골', cards_kinds['해골']['공격력'], cards_kinds['해골']['체력']]
+                                elif match_battle_list[i+1] == '':
+                                    match_battle_list[i-1] = match_battle_list[i]
+                                    match_battle_list[i] = ['해골', cards_kinds['해골']['공격력'], cards_kinds['해골']['체력']]
+                                else:
+                                    pass
+                        # 카드 사망 시
+                        if match_battle_list[i][2] <= 0:
+                            match_battle_list[i] = ''
+                    # 카드 사망 시
                     if player_battle_list[i][2] <= 0:
                         player_battle_list[i] = ''
                         bone += 1
-                        # 이중 사망
+                        # 특성
                         for i in range(4):
                             if cards_kinds[player_battle_list[i][0]]['특성'] == '이중 사망':
                                 player_battle_list[i] = ''
