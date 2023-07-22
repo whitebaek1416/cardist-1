@@ -1,20 +1,21 @@
 import random as r
 import cArd1sT1_8aTt1e as cb
 from collections import defaultdict
+# 초기 변수
 deck = []
 collection = defaultdict(int)
 animal_card_normal = ['거대 크라켄', '거울 촉수', '종 촉수', '패 촉수', '고양이', '늑대', '아기 늑대', '다람쥐', '다람쥐 공', '담비',
                       '두더지', '들쥐', '무스', '새끼 무스', '물총새', '민물 거북', '민물 수달', '매', '블러드하운드', '비둘기', '살무사',
-                      '스컹크', '코요테', '큰까마귀', '포자쥐', '향유고래', '황소개구리', '회색곰']
+                      '스컹크', '코요테', '큰까마귀', '향유고래', '황소개구리', '회색곰']
 animal_card_rare = ['두더지인간', '사마귀신', '우라율리', '우로보로스', '전기뱀장어']
-machine_card_normal = ['감시 드론', '감시 포자', '무효화 전도체', 'L33pB0t', '고GI봇', '버프 전도체', '에너지봇', '봄버봇', '49er',
+machine_card_normal = ['감시 드론', '무효화 전도체', 'L33pB0t', '고GI봇', '버프 전도체', '에너지봇', '봄버봇', '49er',
                        '자동 장치', '곤충 드론', '공장 전도체', '두꺼운 드로이드', '피버봇', '더블 거너', '볼트하운드', '스팀봇']
 machine_card_rare = ['목스 모듈', '에너지 전도체', '폭탄 부인', '곡선넘이', '사진충']
-ghost_card_normal = ['해골', '뼈 굴착자', '포자굴착자', '드라우그르', '망령', '밴시', '뼈 마법사', '좀비', '부서진 은화(왼쪽)',
+ghost_card_normal = ['해골', '뼈 굴착자', '드라우그르', '망령', '밴시', '뼈 마법사', '좀비', '부서진 은화(왼쪽)',
                      '부서진 은화(오른쪽)', '석관', '유령선', '익사한 영혼', '워커즈', '프랭크 & 스타인', '본하운드', '미라 제왕']
-ghost_card_rare = ['도굴꾼', '네크로맨서', '죽은 손', '파라오의 애완동물', '목 없는 기사']
+ghost_card_rare = ['도굴꾼', '네크로맨서', '뼈의 왕의 뿔피리', '죽은 손', '파라오의 애완동물', '목 없는 기사']
 magic_card_normal = ['루비 목스', '사파이어 목스', '에메랄드 목스', '견습 마법사', '붉은 마법사', '연습용 마법사', '루비 골렘', '마법 기사',
-                     '파란 마법사', '파란 포자마법사', '보석 광인', '유영 마법사', '포스 마법사', '초록 마법사', '견습 현자', '근육 마법사']
+                     '파란 마법사', '보석 광인', '유영 마법사', '포스 마법사', '초록 마법사', '견습 현자', '근육 마법사']
 magic_card_rare = ['블린의 목스', '고란즈의 목스', '오를루의 목스', '마스터 고란즈', '마스터 오를루']
 match_ready_list = ['', '', '', '']
 match_battle_list = ['', '', '', '']
@@ -23,7 +24,7 @@ normal_cards = animal_card_normal + machine_card_normal + ghost_card_normal + ma
 rare_cards = animal_card_rare + machine_card_rare + ghost_card_rare + magic_card_rare
 all_cards = normal_cards + rare_cards
 for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_card_rare + ghost_card_normal + \
-         ghost_card_rare + magic_card_normal + magic_card_rare:
+         ghost_card_rare + magic_card_normal + magic_card_rare + ['포자쥐', '감시 포자', '포자굴착자', '파란 포자마법사']:
     collection[i] = 0
 hoil = 0
 my_health = 5
@@ -117,18 +118,19 @@ while True:
 # 본 게임
 while True:
     print(f'호일: {hoil}개')
-    action = input('행동을 입력하시오.(덱 추가(1), 덱 제거(2), 덱 보기(3), 콜렉션 보기(4), 배틀(제작 중)(5), 상인(6))')
+    action = input('행동을 입력하시오.(덱 추가(1), 덱 제거(2), 덱 보기(3), 콜렉션 보기(4), 배틀(5), 상인(6))')
     # 가진 콜렉션에서 카드를 덱에 넣음
     if action == '1':
         print('덱:')
         print(*deck)
         while True:
+            # 콜렉션 출력
             print('콜렉션:')
             for i in collection:
                 if collection[i] > 0:
                     print(f'{i}: {collection[i]}')
-            deck_card = input("카드 이름을 입력하면 콜렉션에 있는 카드가 덱에 들어옵니다.('자동 완성'(1)을 입력하면 무작위 카드가 덱에 들어옵니다."
-                              " '완료'(2)를 입력하면 덱 추가를 종료합니다.)")
+            deck_card = input("카드 이름을 입력하면 콜렉션에 있는 카드가 덱에 들어옵니다.('자동 완성'(1)을 입력하면 무작위 카드가 덱에 들어옵니다. '완료'(2)를 입력하면 덱 추가를 종료합니다.)")
+            # 완료
             if deck_card == '2':
                 # 만약 덱이 20장 이상이라면 완료.
                 if len(deck) >= 20:
@@ -153,10 +155,13 @@ while True:
                     for i in range(value):
                         deck.append(deck_card)
                         collection[deck_card] -= 1
+            # 입력한 카드 없을 때
             elif deck_card not in collection:
                 print('그것은 네가 가진 카드가 아니다.')
+            # 카드가 있는데 콜렉션엔 없을 때
             elif deck_card in collection and collection[deck_card] == 0:
                 print('그 카드는 이미 충분히 넣었다.')
+            # 수동으로 카드 넣을 때
             elif deck_card in collection:
                 if collection[deck_card] != 0:
                     deck.append(deck_card)
@@ -172,15 +177,17 @@ while True:
         print('덱:')
         print(*deck)
         while True:
+            # 콜렉션 출력
             for i in collection:
                 if not collection[i] == 0:
                     print(f'{i}: {collection[i]}')
-            deck_card = input("카드 이름을 입력하면 덱에 있는 카드가 콜렉션으로 돌아갑니다.('전체 제거'(1)를 입력하면 모든 카드가 콜렉션으로"
-                              " 돌아갑니다. '완료'(2)를 입력하면 덱 제거를 종료합니다.)")
+            deck_card = input("카드 이름을 입력하면 덱에 있는 카드가 콜렉션으로 돌아갑니다.('전체 제거'(1)를 입력하면 모든 카드가 콜렉션으로 돌아갑니다. '완료'(2)를 입력하면 덱 제거를 종료합니다.)")
+            # 완료
             if deck_card == '2':
                 print('덱:')
                 print(*deck)
                 break
+            # 전체 제거
             elif deck_card == '1':
                 if len(deck) == 0:
                     print("뺄 것이 무엇이 있다고 빼려 하는가.")
@@ -190,6 +197,7 @@ while True:
                     collection[i] += 1
                 print('덱:')
                 print(*deck)
+            # 수동 제거
             elif deck_card in deck:
                 deck.remove(deck_card)
                 collection[deck_card] += 1
@@ -206,9 +214,8 @@ while True:
         for i in collection:
             if collection[i] > 0:
                 print(f'{i}: {collection[i]}')
-    # 배틀 제작 중
+    # 배틀
     if action == '5':
-        # 기본 설정
         # 덱 개수 제한
         if len(deck) < 20:
             print('아직 너의 덱은 충분치 않다.')
@@ -228,11 +235,12 @@ while True:
             cb.print_battle_plate(match_ready_list, match_battle_list, player_battle_list)  # 배틀 판 출력
             # 상대 턴(대기)
             while True:
-                turn = input("(상대) 턴 넘기기 시 '1'을 입력.")
+                turn = input("(상대) 턴 넘기기 시 '1'을 입력. 카드 소환 시 '2'를 입력.")
                 if turn == '1':
                     break
-                # 카드 설치 및 전도체 확인
-                else:
+                # 보석 현황 파악 및 카드 설치 및 전도체 확인
+                elif turn == '2':
+                    gem = cb.match_mox_search(gem, match_battle_list)
                     bone, match_ready_list = cb.match_set(bone, gem, match_ready_list, match_battle_list, player_battle_list)
                     match_battle_list, energy, max_energy = cb.match_conducting(match_battle_list, energy, max_energy)
             # 턴 경과 시 발동 특성
@@ -243,14 +251,17 @@ while True:
             battle_deck, hand = cb.draw(battle_deck, hand)  # 패 드로우
             # 내 턴
             while True:
-                turn = input("(내) 턴 넘기기 시 '1'을 입력.")
+                turn = input("(플레이어) 턴 넘길 시 '1'을 입력. 카드 소환 시 '2'를 입력. 수동 효과 발동 시 '3'를 입력.")
                 if turn == '1':
                     break
-                else:
-                    # 보석 현황 파악 및 카드 설치 및 전도체 확인
+                # 보석 현황 파악 및 카드 설치 및 전도체 확인
+                elif turn == '2':
                     gem = cb.my_mox_search(gem, player_battle_list)
                     hand, energy, max_energy, bone, player_battle_list, match_battle_list, battle_deck = cb.card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle_list, player_battle_list, battle_deck)
                     player_battle_list, energy, max_energy = cb.player_conducting(player_battle_list, energy, max_energy)
+                # 수동 효과 발동
+                elif turn == '3':
+                    player_battle_list, battle_deck, hand, energy, bone, gem = cb.player_unauto_abilty(player_battle_list, battle_deck, hand, energy, bone, gem)
             # 내 공격
             player_battle_list, match_battle_list = cb.player_change_attack(player_battle_list, match_battle_list)
             hand, bone, my_health, match_battle_list, player_battle_list = cb.card_attack(hand, bone, my_health, match_battle_list, player_battle_list, all_cards)
@@ -275,59 +286,36 @@ while True:
                 print(f'호일: {hoil}개')
                 if not have_uro:
                     buying = input('[구매 항목: 랜덤 일반 카드(포일 1개), 랜덤 레어 카드(포일 3개), 랜덤 카드팩(포일 5개), 우로보로스(포일 8개)], 나가기')
-                    if buying == '1' and hoil >= 1:
-                        random_card_normal = r.choice(normal_cards)
-                        print(random_card_normal)
-                        collection[random_card_normal] += 1
-                        hoil -= 1
-                        break
-                    elif buying == '2' and hoil >= 3:
-                        random_card_rare = r.choice(rare_cards)
-                        print(random_card_rare)
-                        collection[random_card_rare] += 1
-                        hoil -= 3
-                        break
-                    elif buying == '3' and hoil >= 5:
-                        random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
-                        earn_cardpack(random_cardpack)
-                        hoil -= 5
-                        break
-                    elif buying == '4' and hoil >= 8:
-                        collection['우로보로스'] += 1
-                        hoil -= 8
-                        break
-                    elif buying == '5':
-                        print('이용해주셔서 감사합니다.')
-                        break
-                    else:
-                        print('그런 물건은 취급하지 않습니다만...')
-                        continue
-                elif have_uro:
+                if have_uro:
                     buying = input('[구매 항목: 랜덤 일반 카드(포일 1개), 랜덤 레어 카드(포일 3개), 랜덤 카드팩(포일 5개)], 나가기')
-                    if buying == '1' and hoil >= 1:
-                        random_card_normal = r.choice(normal_cards)
-                        print(random_card_normal)
-                        collection[random_card_normal] += 1
-                        hoil -= 1
-                        break
-                    elif buying == '2' and hoil >= 3:
-                        random_card_rare = r.choice(rare_cards)
-                        print(random_card_rare)
-                        collection[random_card_rare] += 1
-                        hoil -= 3
-                        break
-                    elif buying == '3' and hoil >= 5:
-                        random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
-                        earn_cardpack(random_cardpack)
-                        hoil -= 5
-                        break
-                    elif buying == '4':
-                        print('이용해주셔서 감사합니다.')
-                        break
-                    else:
-                        print('그런 물건은 취급하지 않습니다만...')
-                        continue
-    # wlsrbsgkrwk qkdans
+                if buying == '1' and hoil >= 1:
+                    random_card_normal = r.choice(normal_cards)
+                    print(random_card_normal)
+                    collection[random_card_normal] += 1
+                    hoil -= 1
+                    break
+                elif buying == '2' and hoil >= 3:
+                    random_card_rare = r.choice(rare_cards)
+                    print(random_card_rare)
+                    collection[random_card_rare] += 1
+                    hoil -= 3
+                    break
+                elif buying == '3' and hoil >= 5:
+                    random_cardpack = r.choice(['짐승', '기계', '망자', '마력'])
+                    earn_cardpack(random_cardpack)
+                    hoil -= 5
+                    break
+                elif buying == '4' and hoil >= 8:
+                    collection['우로보로스'] += 1
+                    hoil -= 8
+                    break
+                elif buying == '5':
+                    print('이용해주셔서 감사합니다.')
+                    break
+                else:
+                    print('그런 물건은 취급하지 않습니다만...')
+                    continue
+    # 진균학자 방문
     if action == 'tlfgja':
         print('dkssudgktlsrk?')
         print('djtjdhk! djtjdhk!')
