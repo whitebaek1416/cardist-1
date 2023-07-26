@@ -1,7 +1,7 @@
 import random as r
 import cArd1sT1_8aTt1e as cb
 from collections import defaultdict
-# 초기 변수
+# 초기 변수들
 deck = []
 collection = defaultdict(int)
 animal_card_normal = ['거대 크라켄', '거울 촉수', '종 촉수', '패 촉수', '고양이', '늑대', '아기 늑대', '다람쥐', '다람쥐 공', '담비',
@@ -27,7 +27,6 @@ for i in animal_card_normal + animal_card_rare + machine_card_normal + machine_c
          ghost_card_rare + magic_card_normal + magic_card_rare + ['포자쥐', '감시 포자', '포자굴착자', '파란 포자마법사']:
     collection[i] = 0
 hoil = 0
-my_health = 5
 
 
 def select_cardpack(select_rare, select_normal, one_random, two_random, three_random):
@@ -118,7 +117,7 @@ while True:
 # 본 게임
 while True:
     print(f'호일: {hoil}개')
-    action = input('행동을 입력하시오.(덱 추가(1), 덱 제거(2), 덱 보기(3), 콜렉션 보기(4), 배틀(5), 상인(6))')
+    action = input('행동을 입력하시오. [덱 추가(1), 덱 제거(2), 덱 보기(3), 콜렉션 보기(4), 배틀(5), 상인(6)]')
     # 가진 콜렉션에서 카드를 덱에 넣음
     if action == '1':
         print('덱:')
@@ -216,6 +215,7 @@ while True:
                 print(f'{i}: {collection[i]}')
     # 배틀
     if action == '5':
+        my_health = 5
         # 덱 개수 제한
         if len(deck) < 20:
             print('아직 너의 덱은 충분치 않다.')

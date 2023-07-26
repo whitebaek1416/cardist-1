@@ -1,4 +1,6 @@
 import random as r
+
+
 class Cards:
     def __init__(self, name, price, attack, health, attribute):
         self.name = name
@@ -6,6 +8,7 @@ class Cards:
         self.attack = attack
         self.health = health
         self.attribute = attribute
+
 
 # '강철 덫': Cards('강철 덫', '없음', 0, 5, '강철 덫'),
 
@@ -298,6 +301,7 @@ def start_draw(battle_deck, hand):
 def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle_list, player_battle_list, battle_deck):
     print(f'에너지: {energy}, 뼈: {bone}, 보석: {gem}')
     print(*hand)
+    can_place = True
 
     # 비용 처리
     while True:
@@ -323,7 +327,7 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
                                cards_kinds[blood_card_list[i]]['희생 여부'] == '가능':
                                 can_be_blood += 1
                             elif cards_kinds[blood_card_list[i]]['희생 여부'] == '불가능':
-                                continue
+                                can_place = False
                     if can_be_blood >= need_blood:
                         while need_blood > 0:
                             print(blood_card_list)
@@ -353,48 +357,54 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
                         print(f'에너지: {energy}')
                     else:
                         print('이봐. 너 지금 에너지 부족한 거 안 보여?')
-                        continue
+                        can_place = False
                 # 비용이 뼈일 때
                 elif cards_kinds[set_card]['비용'][0] == '뼈':
                     if bone >= cards_kinds[set_card]['비용'][1]:
                         bone -= cards_kinds[set_card]['비용'][1]
                         print(f'뼈: {bone}')
                     else:
-                        print('그것을 내기 위한 뼈가 부족하다.')
-                        continue
+                        print('그것을 내기 위한 뼈가 부족하구나.')
+                        can_place = False
                 # 비용이 보석일 때
                 elif cards_kinds[set_card]['비용'][0] == '보석':
+                    can_place_gem = True
                     print(f'보석: {gem}')
                     need_gem = [cards_kinds[set_card]['비용'][1] for _ in range(len(cards_kinds[set_card]['비용'][1]))]
-                    if '루비' in gem and '루비' in need_gem:
+                    if '루비' in need_gem and '루비' in gem:
                         need_gem.remove('루비')
-                    elif '사파이어' in gem and '사파이어' in need_gem:
+                    elif '사파이어' in need_gem and '사파이어' in gem:
                         need_gem.remove('사파이어')
-                    elif '에메랄드' in gem and '에메랄드' in need_gem:
+                    elif '에메랄드' in need_gem and '에메랄드' in gem:
                         need_gem.remove('에메랄드')
                     else:
                         for i in range(len(cards_kinds[set_card]['비용'][1])):
-                            print(i)
                             if need_gem[i] not in gem:
-                                print('그것에 필요한 보석이 없다.')
-                                continue
+                                can_place_gem = False
+                                can_place = False
+                    if not can_place_gem:
+                        print('그것에 필요한 보석이 없다.')
         break
 
     # 놓을 자리 처리
-    while True:
-        print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
-        card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
-        if card_space < 1 or card_space > 4:
-            print('정확한 자리를 입력하세요.')
-            continue
-        elif player_battle_list[card_space-1] != '':
-            print('이미 카드가 그 자리에 있습니다.')
-            continue
-        elif player_battle_list[card_space-1] == '':
-            player_battle_list[card_space-1] = [set_card, cards_kinds[set_card]['공격력'], cards_kinds[set_card]['체력']]
-            hand.remove(set_card)
-            # 수호자
-            for i in range(4):
+    if can_place:
+        while True:
+            print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
+            card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
+            # 자리 교정
+            if card_space < 1 or card_space > 4:
+                print('정확한 자리를 입력하세요.')
+                continue
+            # 이미 있음
+            elif player_battle_list[card_space-1] != '':
+                print('이미 카드가 그 자리에 있습니다.')
+                continue
+            # 소환 성공 시
+            elif player_battle_list[card_space-1] == '':
+                player_battle_list[card_space-1] = [set_card, cards_kinds[set_card]['공격력'], cards_kinds[set_card]['체력']]
+                hand.remove(set_card)
+            # 소환 시 발동하는 특성
+            for i in range(4):   # 수호자
                 if cards_kinds[set_card]['특성'] == '수호자' and match_battle_list[card_space-1] == '':
                     player_battle_list[card_space-1] = match_battle_list[card_space-1]
                     match_battle_list[i] = ''
@@ -404,7 +414,7 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
                     bone += 1
             if cards_kinds[set_card]['특성'] == '보초':
                 if match_battle_list[card_space-1] != '':
-                    if match_battle_list[card_space-1][1] > 1:
+                    if match_battle_list[card_space-1][2] >= 1:
                         match_battle_list[card_space-1][2] -= 1
                     else:
                         match_battle_list[card_space-1] = ''
@@ -433,9 +443,9 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
                 for i in range(4):
                     if match_battle_list[i] == '':
                         match_battle_list[i] = ['봄버봇', cards_kinds['봄버봇']['공격력'], cards_kinds['봄버봇']['체력']]
-            print(f'에너지: {energy}, 뼈: {bone}, 보석: {gem}')
-            print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
-            return hand, energy, max_energy, bone, player_battle_list, match_battle_list, battle_deck
+    print(f'에너지: {energy}, 뼈: {bone}, 보석: {gem}')
+    print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
+    return hand, energy, max_energy, bone, player_battle_list, match_battle_list, battle_deck
 
 
 def match_set(bone, gem, match_ready_list, match_battle_list, player_battle_list):
@@ -682,7 +692,6 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
             match_abilty = cards_kinds[match_battle_list[i][0]]['특성']
         if player_battle_list[i] != '':
             player_abilty = cards_kinds[player_battle_list[i][0]]['특성']
-
         if match_battle_list[i] != '':
             if player_battle_list[i] == '':
                 my_health -= match_battle_list[i][1]
