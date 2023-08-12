@@ -3,9 +3,9 @@ uroboros_power = 1
 
 
 class Cards:
-    def __init__(self, name, price, attack, health, attribute, bloody):
+    def __init__(self, name, cost, attack, health, attribute, bloody):
         self.name = name
-        self.price = price
+        self.cost = cost
         self.attack = attack
         self.health = health
         self.attribute = attribute
