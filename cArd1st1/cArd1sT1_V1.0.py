@@ -264,7 +264,7 @@ while True:
                     player_battle_list, battle_deck, hand, energy, bone, gem = cb.player_unauto_abilty(player_battle_list, battle_deck, hand, energy, bone, gem)
             # 내 공격
             player_battle_list, match_battle_list = cb.player_change_attack(player_battle_list, match_battle_list)
-            hand, bone, my_health, match_battle_list, player_battle_list = cb.card_attack(hand, bone, my_health, match_battle_list, player_battle_list, all_cards)
+            hand, bone, my_health, match_battle_list, player_battle_list = cb.card_attack(hand, bone, my_health, match_battle_list, player_battle_list, gem, all_cards)
             print(f'{my_health} : {10 - my_health}')
             hoil, win = cb.win_lose(my_health, hoil)
             # 상대 턴 경과 시 발동 특성
