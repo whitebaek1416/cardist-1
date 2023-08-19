@@ -228,7 +228,8 @@ while True:
         gem = []  # 소지한 보석
         hand = []  # 패
         # 덱 및 패의 기본 카드 설정
-        battle_deck = deck  # 덱
+        r.shuffle(deck)
+        battle_deck = deck
         battle_deck, hand = cb.start_draw(battle_deck, hand)  # 기본 3장 드로우
         # 배틀 메인 루프
         while not win:
@@ -238,7 +239,7 @@ while True:
                 turn = input("(상대) 턴 넘기기 시 '1'을 입력. 카드 소환 시 '2'를 입력.")
                 if turn == '1':
                     break
-                # 보석 현황 파악 및 카드 설치 및 전도체 확인
+                # 보석 현황 파악 및 카드 소환 및 전도체 확인
                 elif turn == '2':
                     gem = cb.match_mox_search(gem, match_battle_list)
                     bone, match_ready_list = cb.match_set(bone, gem, match_ready_list, match_battle_list, player_battle_list)
