@@ -72,7 +72,7 @@ while True:
     if choose_deck == '1':
         choose_animal_deck = input('너의 야망은 레쉬를 대체해 짐승의 필경자가 되는 것인가?(덱을 가진다(1), 내버려둔다(2))')
         if choose_animal_deck == '1':
-            starter_card = ['다람쥐'] * 6 + ['담비'] * 5 + ['코요테'] * 5 + ['늑대'] * 4
+            starter_card = ['다람쥐'] * 7 + ['담비'] * 5 + ['황소개구리'] * 4 + ['늑대'] * 4
             for i in starter_card:
                 collection[i] += 1
             print('너의 콜렉션에 카드가 추가되었다.')

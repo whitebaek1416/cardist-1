@@ -23,7 +23,7 @@ cards = {'강철 덫': Cards('강철 덫', '없음', 0, 5, ['강철 덫', '굴�
          '아기 늑대': Cards('아기 늑대', ['피', 1], 1, 1, '성장', True),
          '다람쥐': Cards('다람쥐', '없음', 0, 1, '없음', True),
          '다람쥐 공': Cards('다람쥐 공', ['피', 1], 0, 1, '다람쥐 분만', True),
-         '담비': Cards('담비', ['피', 1], 1, 2, '없음', True),
+         '담비': Cards('담비', ['피', 1], 1, 3, '없음', True),
          '두더지': Cards('두더지', ['피', 1], 0, 4, '굴살이', True),
          '두더지인간': Cards('두더지인간', ['피', 1], 0, 6, ['굴살이', '비행 방어'], True),
          '들쥐': Cards('들쥐', ['피', 2], 2, 2, '생식력', True),
@@ -427,10 +427,10 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
                     can_be_blood = 0
                     for i in range(4):
                         if blood_card_list[i] != '':
-                            if cards[blood_card_list[i]].bloody == '다중' or \
-                               cards[blood_card_list[i]].bloody == '가능':
+                            print(blood_card_list[i], type(blood_card_list[i]))
+                            if cards[blood_card_list[i]].bloody:
                                 can_be_blood += 1
-                            elif cards[blood_card_list[i]].bloody == '불가능':
+                            elif not cards[blood_card_list[i]].bloody:
                                 can_place = False
                     if can_be_blood >= need_blood:
                         while need_blood > 0:
@@ -557,25 +557,28 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
 
 def match_set(bone, gem, match_ready_list, match_battle_list, player_battle_list):
     print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
-    set_card = input('대기할 카드를 입력하세요.(카드 이름)')
+    setting = True
+    while setting:
+        set_card = input('대기할 카드를 입력하세요.(카드 이름)')
+        if set_card in cards.keys():
+            setting = False
     card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
-    if set_card in cards.keys():
-        if cards[set_card].attribute == '보석 의존증':
-            if not gem or cards[set_card]['비용'] not in gem:
-                set_card = ''
-        if cards[set_card].attribute == '보초':
-            if player_battle_list[card_space - 1] != '':
-                if player_battle_list[card_space - 1][1] > 1:
-                    player_battle_list[card_space - 1][2] -= 1
-                else:
-                    player_battle_list[card_space - 1] = ''
-        if cards[set_card].attribute == '폭탄 바주카':
-            for i in range(4):
-                if player_battle_list[i] == '':
-                    player_battle_list[i] = ['봄버봇', cards['봄버봇'].attack, cards['봄버봇'].health]
-            for i in range(4):
-                if match_battle_list[i] == '':
-                    match_battle_list[i] = ['봄버봇', cards['봄버봇'].attack, cards['봄버봇'].health]
+    if cards[set_card].attribute == '보석 의존증':
+        if not gem or cards[set_card]['비용'] not in gem:
+            set_card = ''
+    if cards[set_card].attribute == '보초':
+        if player_battle_list[card_space - 1] != '':
+            if player_battle_list[card_space - 1][1] > 1:
+                player_battle_list[card_space - 1][2] -= 1
+            else:
+                player_battle_list[card_space - 1] = ''
+    if cards[set_card].attribute == '폭탄 바주카':
+        for i in range(4):
+            if player_battle_list[i] == '':
+                player_battle_list[i] = ['봄버봇', cards['봄버봇'].attack, cards['봄버봇'].health]
+        for i in range(4):
+            if match_battle_list[i] == '':
+                match_battle_list[i] = ['봄버봇', cards['봄버봇'].attack, cards['봄버봇'].health]
     match_ready_list[card_space-1] = [set_card, cards[set_card].attack, cards[set_card].health]
     print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
     return bone, match_ready_list
@@ -841,16 +844,19 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
                         match_battle_list[i+1][2] -= player_battle_list[i][1]
                     except:
                         continue
-                elif player_abilty == '가시':
-                    match_battle_list[i][2] -= 1
-                elif player_abilty == '역겨움':
-                    match_battle_list[i][2] -= 0
-                elif player_abilty == '토끼굴':
-                    hand.append('토끼')
                 # 데미지 계산
                 else:
                     # 체력 계산
                     player_battle_list[i][2] -= match_battle_list[i][1]
+                    # 공격 후 특성
+                    if match_abilty == '취약성':
+                        match_battle_list[i] = ''
+                    elif player_abilty == '가시':
+                        match_battle_list[i][2] -= 1
+                    elif player_abilty == '역겨움':
+                        match_battle_list[i][2] -= 0
+                    elif player_abilty == '토끼굴':
+                        hand.append('토끼')
                     # 이동 특성
                     if player_abilty in attack_moves:
                         move_direction = r.choice(['left', 'right'])
@@ -911,9 +917,6 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
                                     match_battle_list[i] = ['해골', cards['해골'].attack, cards['해골'].health]
                                 else:
                                     pass
-                    # 취약성(자멸)
-                    if match_abilty == '취약성':
-                        match_battle_list[i] = ''
                     # 카드 사망 시
                     if player_battle_list[i][2] <= 0:
                         player_battle_list[i] = ''
