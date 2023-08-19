@@ -298,7 +298,7 @@ def my_turn_change(bone, player_battle_list):
 def match_turn_change(match_battle_list):
     for i in range(4):
         if match_battle_list[i] != '':
-            if cards[match_battle_list[i]].attribute == '성장':
+            if cards[match_battle_list[i][0]].attribute == '성장':
                 match_battle_list[i] = abilty_growth(match_battle_list[i])
     return match_battle_list
 
@@ -428,24 +428,24 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
                     for i in range(4):
                         if blood_card_list[i] != '':
                             print(blood_card_list[i], type(blood_card_list[i]))
-                            if cards[blood_card_list[i]].bloody:
+                            if cards[blood_card_list[i][0]].bloody:
                                 can_be_blood += 1
-                            elif not cards[blood_card_list[i]].bloody:
+                            elif not cards[blood_card_list[i][0]].bloody:
                                 can_place = False
                     if can_be_blood >= need_blood:
                         while need_blood > 0:
                             print(blood_card_list)
                             blood_card = int(input('희생할 카드의 자리를 입력하세요.(1, 2, 3, 4)'))
                             if blood_card_list[blood_card-1] != '':
-                                if cards[blood_card_list[blood_card-1]].bloody == '다중':
+                                if cards[blood_card_list[blood_card-1][0]].bloody and cards[blood_card_list[blood_card-1][0]].attribute == '많은 목숨':
                                     need_blood -= 1
-                                elif cards[blood_card_list[blood_card-1]].bloody == '가능':
-                                    if cards[blood_card_list[blood_card - 1]].attribute == '고귀한 희생':
+                                elif cards[blood_card_list[blood_card-1][0]].bloody:
+                                    if cards[blood_card_list[blood_card-1][0]].attribute == '고귀한 희생':
                                         need_blood -= 2
                                     need_blood -= 1
                                     player_battle_list[blood_card-1] = ''
                                     bone += 1
-                                elif cards[blood_card_list[blood_card-1]].bloody == '불가능':
+                                elif not cards[blood_card_list[blood_card-1][0]].bloody:
                                     print('이 카드는 희생할 수 없습니다.')
                                     blood_card_list.remove(blood_card-1)
                             else:
@@ -627,9 +627,6 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
         if player_battle_list[i] != '':
             player_abilty = cards[player_battle_list[i][0]].attribute
         if match_battle_list[i] != '':
-            match_abilty = cards[match_battle_list[i][0]].attribute
-        if player_battle_list[i] != '':
-            player_abilty = cards[player_battle_list[i][0]].attribute
             match_abilty = cards[match_battle_list[i][0]].attribute
             # 특수 공격력
             if isinstance(cards[player_battle_list[i][0]].attack, list):
@@ -848,7 +845,7 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
                 else:
                     # 체력 계산
                     player_battle_list[i][2] -= match_battle_list[i][1]
-                    # 공격 후 특성
+                    # 공격 무후 특성
                     if match_abilty == '취약성':
                         match_battle_list[i] = ''
                     elif player_abilty == '가시':
