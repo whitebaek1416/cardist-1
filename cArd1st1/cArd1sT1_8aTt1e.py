@@ -334,7 +334,7 @@ def match_conducting(match_battle_list, energy, max_energy):
     for i in range(4):
         if match_battle_list[i] == '':
             continue
-        elif cards[match_battle_list[i]].attribute in conductor and len(conductor_where) <= 2:
+        elif cards[match_battle_list[i][0]].attribute in conductor and len(conductor_where) <= 2:
             conductor_where.append(i)
             conductor_what.append(cards[match_battle_list[i][0]].attribute)
             for i in match_battle_list[conductor_where[0]:conductor_where[1]+1]:
@@ -588,7 +588,7 @@ def player_unauto_abilty(player_battle_list, battle_deck, hand, energy, bone, ge
     unauto_abiltys = ['도굴', '뼈 프린터', '자극', '진정한 학자', '팽창']
     player_unauto_abiltys = []
     for i in player_battle_list:
-        if cards[i].attribute in unauto_abiltys:
+        if cards[i[0]].attribute in unauto_abiltys:
             player_unauto_abiltys.append(cards[i].attribute)
 
     player_unauto = input(f'발동 가능한 특성 = {player_unauto_abiltys}')
@@ -644,12 +644,13 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
             if match_battle_list[i] == '':
                 if player_abilty == '약탈자':
                     hand.append(r.choice(all_cards))
+                else:
+                    my_health += player_battle_list[i][1]
+                # 굴살이
                 for j in range(4):
                     if '굴살이' in player_abilty and player_battle_list[j] == '':
                         player_battle_list[j] = player_battle_list[i]
                         player_battle_list[i] = ''
-                else:
-                    my_health += player_battle_list[i][1]
             # 다른 특성들
             elif match_battle_list[i] != '':
                 # 공격 시 특성
