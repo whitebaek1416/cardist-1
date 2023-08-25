@@ -227,6 +227,7 @@ while True:
         bone = 0  # 소지한 뼈
         gem = []  # 소지한 보석
         hand = []  # 패
+        is_first_turn = True # 첫 턴 여부
         # 덱 및 패의 기본 카드 설정
         r.shuffle(deck)
         battle_deck = deck
@@ -246,10 +247,11 @@ while True:
                     match_battle_list, energy, max_energy = cb.match_conducting(match_battle_list, energy, max_energy)
             # 턴 경과 시 발동 특성
             bone, player_battle_list = cb.my_turn_change(bone, player_battle_list)  # 성장, 뼈 채굴자 특성 발동
-            if max_energy < 6:  # 에너지/최대 에너지 증가
+            # 에너지/최대 에너지 증가
+            if max_energy < 6:
                 max_energy += 1
             energy = max_energy
-            battle_deck, hand = cb.draw(battle_deck, hand)  # 패 드로우
+            battle_deck, hand = cb.draw(battle_deck, hand)
             # 내 턴
             while True:
                 turn = input("(플레이어) 턴 넘길 시 '1'을 입력. 카드 소환 시 '2'를 입력. 수동 효과 발동 시 '3'를 입력.")
