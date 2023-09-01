@@ -646,11 +646,6 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
                     hand.append(r.choice(all_cards))
                 else:
                     my_health += player_battle_list[i][1]
-                # 굴살이
-                for j in range(4):
-                    if '굴살이' in player_abilty and player_battle_list[j] == '':
-                        player_battle_list[j] = player_battle_list[i]
-                        player_battle_list[i] = ''
             # 다른 특성들
             elif match_battle_list[i] != '':
                 # 공격 시 특성
@@ -761,52 +756,52 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
                     # 사망 시 작용하는 특성
                     if match_battle_list[i][2] <= 0:
                         match_battle_list[i] = ''
-                    for i in range(4):
-                        if player_abilty == '이중 사망':
-                            player_battle_list[i] = ''
-                            bone += 1
-                            for j in range(4):
-                                if i == j:
-                                    continue
-                                elif cards[player_battle_list[i]].attribute == '이중 사망':
-                                    player_battle_list[i] = ''
-                                    bone += 1
-                                    for k in range(4):
-                                        if k == i:
-                                            continue
-                                        if k == j:
-                                            continue
-                                        elif cards[player_battle_list[i]].attribute == '이중 사망':
-                                            player_battle_list[i] = ''
-                                            bone += 1
-                    if player_abilty == '취약성':
-                        player_battle_list[i] = ''
-                        bone += 1
-                    elif player_abilty == '폭탄':
-                        try:
-                            match_battle_list[i-1][2] -= 10
-                            if match_battle_list[i-1][2] <= 0:
-                                match_battle_list[i] = ''
-                                bone += 1
-                        except:
-                            continue
-                        try:
-                            match_battle_list[i+1][2] -= 10
-                            if match_battle_list[i+1][2] <= 0:
-                                match_battle_list[i] = ''
-                                bone += 1
-                        except:
-                            continue
-                        try:
-                            player_battle_list[i][2] -= 10
-                            if player_battle_list[i][2] <= 0:
+                        for i in range(4):
+                            if player_abilty == '이중 사망':
                                 player_battle_list[i] = ''
                                 bone += 1
-                        except:
-                            continue
-                    elif match_abilty == '해빙':
-                        if match_battle_list[i][0] == '드라우그르':
-                            match_battle_list[i] = ['드라우그르', cards['드라우그르'].attack, cards['드라우그르'].health]
+                                for j in range(4):
+                                    if i == j:
+                                        continue
+                                    elif cards[player_battle_list[i]].attribute == '이중 사망':
+                                        player_battle_list[i] = ''
+                                        bone += 1
+                                        for k in range(4):
+                                            if k == i:
+                                                continue
+                                            if k == j:
+                                                continue
+                                            elif cards[player_battle_list[i]].attribute == '이중 사망':
+                                                player_battle_list[i] = ''
+                                                bone += 1
+                        if player_abilty == '취약성':
+                            player_battle_list[i] = ''
+                            bone += 1
+                        elif player_abilty == '폭탄':
+                            try:
+                                match_battle_list[i-1][2] -= 10
+                                if match_battle_list[i-1][2] <= 0:
+                                    match_battle_list[i] = ''
+                                    bone += 1
+                            except:
+                                continue
+                            try:
+                                match_battle_list[i+1][2] -= 10
+                                if match_battle_list[i+1][2] <= 0:
+                                    match_battle_list[i] = ''
+                                    bone += 1
+                            except:
+                                continue
+                            try:
+                                player_battle_list[i][2] -= 10
+                                if player_battle_list[i][2] <= 0:
+                                    player_battle_list[i] = ''
+                                    bone += 1
+                            except:
+                                continue
+                        elif match_abilty == '해빙':
+                            if match_battle_list[i][0] == '드라우그르':
+                                match_battle_list[i] = ['드라우그르', cards['드라우그르'].attack, cards['드라우그르'].health]
     return hand, bone, my_health, match_battle_list, player_battle_list
 
 
@@ -869,6 +864,11 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
                     player_battle_list[i][2] -= 1
                 elif match_abilty == '역겨움':
                     player_battle_list[i][2] -= 0
+                # 굴살이
+                for j in range(4):
+                    if '굴살이' in player_abilty and player_battle_list[j] == '':
+                        player_battle_list[j] = player_battle_list[i]
+                        player_battle_list[i] = ''
                 # 데미지 계산
                 else:
                     # 체력 계산

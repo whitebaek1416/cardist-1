@@ -215,19 +215,19 @@ while True:
                 print(f'{i}: {collection[i]}')
     # 배틀
     if action == '5':
-        my_health = 5
         # 덱 개수 제한
         if len(deck) < 20:
             print('아직 너의 덱은 충분치 않다.')
             continue
-        # 함수 초기 설정
+        # 변수 초기 설정
+        my_health = 5  # 초기 체력 설정
         win = False  # 승리 여부 체크
         max_energy = 0  # 최대 에너지
         energy = 0  # 소지한 에너지
         bone = 0  # 소지한 뼈
         gem = []  # 소지한 보석
         hand = []  # 패
-        is_first_turn = True # 첫 턴 여부
+        is_first_turn = True  # 첫 턴 여부
         # 덱 및 패의 기본 카드 설정
         r.shuffle(deck)
         battle_deck = deck
