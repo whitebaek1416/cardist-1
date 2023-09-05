@@ -559,8 +559,10 @@ def match_set(bone, gem, match_ready_list, match_battle_list, player_battle_list
     print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
     setting = True
     while setting:
-        set_card = input('대기할 카드를 입력하세요.(카드 이름)')
-        if set_card in cards.keys():
+        set_card = input("대기할 카드를 입력하세요.(카드 이름), 나가려면 '1'을 입력.")
+        if set_card == '1':
+            return bone, match_ready_list
+        elif set_card in cards.keys():
             setting = False
     card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
     if cards[set_card].attribute == '보석 의존증':
