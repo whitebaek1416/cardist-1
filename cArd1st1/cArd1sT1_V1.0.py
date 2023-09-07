@@ -242,7 +242,6 @@ while True:
                     break
                 # 보석 현황 파악 및 카드 소환 및 전도체 확인
                 elif turn == '2':
-                    gem = cb.match_mox_search(gem, match_battle_list)
                     bone, match_ready_list = cb.match_set(bone, gem, match_ready_list, match_battle_list, player_battle_list)
                     match_battle_list, energy, max_energy = cb.match_conducting(match_battle_list, energy, max_energy)
             # 턴 경과 시 발동 특성

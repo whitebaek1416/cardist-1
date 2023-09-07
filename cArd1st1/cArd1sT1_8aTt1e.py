@@ -228,6 +228,8 @@ cards = {'강철 덫': Cards('강철 덫', '없음', 0, 5, ['강철 덫', '굴�
 #                '마스터 오를루': {'비용': ['보석', ['루비', '사파이어']], '공격력': 1, '체력': 1, '특성': ['비행', '약탈자'], '희생 여부': '가능'}}
 
 
+# 함수
+
 def abilty_growth(set_card):
     if set_card == '아기 늑대':
         set_card = ['늑대', cards['늑대'].attack, set_card[2] + 1]
@@ -362,22 +364,6 @@ def my_mox_search(gem, player_battle_list):
         gem.append('사파이어')
     if '에메랄드 목스' in player_battle_list and '에메랄드' not in gem or '블린의 목스' in player_battle_list and '에메랄드' not \
             in gem or '고란즈의 목스' in player_battle_list and '에메랄드' not in gem or '위대한 목스' in player_battle_list and\
-            '에메랄드' not in gem:
-        gem.append('에메랄드')
-    return gem
-
-
-def match_mox_search(gem, match_battle_list):
-    if '루비 목스' in match_battle_list and '루비' not in gem or '고란즈의 목스' in match_battle_list and '루비' not in gem \
-            or '오를루의 목스' in match_battle_list and '루비' not in gem or '위대한 목스' in match_battle_list and '루비' \
-            not in gem:
-        gem.append('루비')
-    if '사파이어 목스' in match_battle_list and '사파이어' not in gem or '블린의 목스' in match_battle_list and '사파이어' not \
-            in gem or '오를루의 목스' in match_battle_list and '사파이어' not in gem or '위대한 목스' in match_battle_list and\
-            '사파이어' not in gem:
-        gem.append('사파이어')
-    if '에메랄드 목스' in match_battle_list and '에메랄드' not in gem or '블린의 목스' in match_battle_list and '에메랄드' not \
-            in gem or '고란즈의 목스' in match_battle_list and '에메랄드' not in gem or '위대한 목스' in match_battle_list and\
             '에메랄드' not in gem:
         gem.append('에메랄드')
     return gem
@@ -644,10 +630,9 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
                     player_battle_list[i][1][1] = len(gem)
             # 상대 편에 카드가 없을 때 내 카드의 공격력만큼 체력 회복 (+약탈자)(+굴살이)
             if match_battle_list[i] == '':
+                my_health += player_battle_list[i][1]
                 if player_abilty == '약탈자':
                     hand.append(r.choice(all_cards))
-                else:
-                    my_health += player_battle_list[i][1]
             # 다른 특성들
             elif match_battle_list[i] != '':
                 # 공격 시 특성
@@ -655,30 +640,42 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
                     if match_abilty == '비행 방어':
                         match_battle_list[i][2] -= player_battle_list[i][1]
                     else:
+                        my_health += player_battle_list[i][1]
                         if player_abilty == '약탈자':
                             hand.append(r.choice(all_cards))
                 elif player_abilty == '잠수' or player_abilty == '크라켄 잠수':
                     my_health += match_battle_list[i][1]
                 elif player_abilty == '즉사':
                     match_battle_list[i] = ''
-                    bone += 1
                 elif player_abilty == '이분공격':
                     try:
-                        match_battle_list[i-1][2] -= player_battle_list[i][1]
+                        if match_battle_list[i-1] != '':
+                            match_battle_list[i-1][2] -= player_battle_list[i][1]
+                        else:
+                            my_health += player_battle_list[i][1]
                     except:
                         continue
                     try:
-                        match_battle_list[i+1][2] -= player_battle_list[i][1]
+                        if match_battle_list[i+1] != '':
+                            match_battle_list[i+1][2] -= player_battle_list[i][1]
+                        else:
+                            my_health += player_battle_list[i][1]
                     except:
                         continue
                 elif player_abilty == '삼분공격':
                     try:
-                        match_battle_list[i-1][2] -= player_battle_list[i][1]
+                        if match_battle_list[i - 1] != '':
+                            match_battle_list[i - 1][2] -= player_battle_list[i][1]
+                        else:
+                            my_health += player_battle_list[i][1]
                     except:
                         continue
                     match_battle_list[i][2] -= player_battle_list[i][1]
                     try:
-                        match_battle_list[i+1][2] -= player_battle_list[i][1]
+                        if match_battle_list[i + 1] != '':
+                            match_battle_list[i + 1][2] -= player_battle_list[i][1]
+                        else:
+                            my_health += player_battle_list[i][1]
                     except:
                         continue
                 elif match_abilty == '강철 덫':
@@ -690,73 +687,73 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
                     player_battle_list[i][2] -= 1
                 elif match_abilty == '역겨움':
                     player_battle_list[i][2] -= 0
-                # 데미지 계산
                 else:
-                    # 체력 계산
                     match_battle_list[i][2] -= player_battle_list[i][1]
-                    # 이동 특성
-                    if cards[i].attribute in attack_moves:
-                        move_direction = r.choice(['left', 'right'])
-                        if cards[i].attribute == '다람쥐 분만':
-                            if move_direction == 'left':
-                                if player_battle_list[i-1] == '':
-                                    player_battle_list[i-1] = player_battle_list[i]
-                                    player_battle_list[i] = ['다람쥐', cards['다람쥐'].attack, cards['다람쥐'].health]
-                                elif player_battle_list[i - 1] == '':
-                                    player_battle_list[i+1] = player_battle_list[i]
-                                    player_battle_list[i] = ['다람쥐', cards['다람쥐'].attack, cards['다람쥐'].health]
-                                else:
-                                    pass
-                            elif move_direction == 'right':
-                                if player_battle_list[i+1] == '':
-                                    player_battle_list[i+1] = player_battle_list[i]
-                                    player_battle_list[i] = ['다람쥐', cards['다람쥐'].attack, cards['다람쥐'].health]
-                                elif player_battle_list[i+1] == '':
-                                    player_battle_list[i-1] = player_battle_list[i]
-                                    player_battle_list[i] = ['다람쥐', cards['다람쥐'].attack, cards['다람쥐'].health]
-                                else:
-                                    pass
-                        elif cards[i].attribute == '이동':
-                            if move_direction == 'left':
-                                if player_battle_list[i-1] == '':
-                                    player_battle_list[i-1] = player_battle_list[i]
-                                    player_battle_list[i] = ''
-                                elif player_battle_list[i-1] != '':
-                                    player_battle_list[i+1] = player_battle_list[i]
-                                    player_battle_list[i] = ''
-                                else:
-                                    pass
-                            elif move_direction == 'right':
-                                if player_battle_list[i+1] == '':
-                                    player_battle_list[i+1] = player_battle_list[i]
-                                    player_battle_list[i] = ''
-                                elif player_battle_list[i+1] != '':
-                                    player_battle_list[i-1] = player_battle_list[i]
-                                    player_battle_list[i] = ''
-                                else:
-                                    pass
-                        elif cards[i].attribute == '해골 선원':
-                            if move_direction == 'left':
-                                if player_battle_list[i-1] == '':
-                                    player_battle_list[i-1] = player_battle_list[i]
-                                    player_battle_list[i] = ['해골', cards['해골'].attack, cards['해골'].health]
-                                elif player_battle_list[i-1] == '':
-                                    player_battle_list[i+1] = player_battle_list[i]
-                                    player_battle_list[i] = ['해골', cards['해골'].attack, cards['해골'].health]
-                                else:
-                                    pass
-                            elif move_direction == 'right':
-                                if player_battle_list[i+1] == '':
-                                    player_battle_list[i+1] = player_battle_list[i]
-                                    player_battle_list[i] = ['해골', cards['해골'].attack, cards['해골'].health]
-                                elif player_battle_list[i+1] == '':
-                                    player_battle_list[i-1] = player_battle_list[i]
-                                    player_battle_list[i] = ['해골', cards['해골'].attack, cards['해골'].health]
-                                else:
-                                    pass
+            # 데미지 계산
+            else:
+                # 이동 특성
+                if cards[i].attribute in attack_moves:
+                    move_direction = r.choice(['left', 'right'])
+                    if cards[i].attribute == '다람쥐 분만':
+                        if move_direction == 'left':
+                            if player_battle_list[i-1] == '':
+                                player_battle_list[i-1] = player_battle_list[i]
+                                player_battle_list[i] = ['다람쥐', cards['다람쥐'].attack, cards['다람쥐'].health]
+                            elif player_battle_list[i - 1] == '':
+                                player_battle_list[i+1] = player_battle_list[i]
+                                player_battle_list[i] = ['다람쥐', cards['다람쥐'].attack, cards['다람쥐'].health]
+                            else:
+                                pass
+                        elif move_direction == 'right':
+                            if player_battle_list[i+1] == '':
+                                player_battle_list[i+1] = player_battle_list[i]
+                                player_battle_list[i] = ['다람쥐', cards['다람쥐'].attack, cards['다람쥐'].health]
+                            elif player_battle_list[i+1] == '':
+                                player_battle_list[i-1] = player_battle_list[i]
+                                player_battle_list[i] = ['다람쥐', cards['다람쥐'].attack, cards['다람쥐'].health]
+                            else:
+                                pass
+                    elif cards[i].attribute == '이동':
+                        if move_direction == 'left':
+                            if player_battle_list[i-1] == '':
+                                player_battle_list[i-1] = player_battle_list[i]
+                                player_battle_list[i] = ''
+                            elif player_battle_list[i-1] != '':
+                                player_battle_list[i+1] = player_battle_list[i]
+                                player_battle_list[i] = ''
+                            else:
+                                pass
+                        elif move_direction == 'right':
+                            if player_battle_list[i+1] == '':
+                                player_battle_list[i+1] = player_battle_list[i]
+                                player_battle_list[i] = ''
+                            elif player_battle_list[i+1] != '':
+                                player_battle_list[i-1] = player_battle_list[i]
+                                player_battle_list[i] = ''
+                            else:
+                                pass
+                    elif cards[i].attribute == '해골 선원':
+                        if move_direction == 'left':
+                            if player_battle_list[i-1] == '':
+                                player_battle_list[i-1] = player_battle_list[i]
+                                player_battle_list[i] = ['해골', cards['해골'].attack, cards['해골'].health]
+                            elif player_battle_list[i-1] == '':
+                                player_battle_list[i+1] = player_battle_list[i]
+                                player_battle_list[i] = ['해골', cards['해골'].attack, cards['해골'].health]
+                            else:
+                                pass
+                        elif move_direction == 'right':
+                            if player_battle_list[i+1] == '':
+                                player_battle_list[i+1] = player_battle_list[i]
+                                player_battle_list[i] = ['해골', cards['해골'].attack, cards['해골'].health]
+                            elif player_battle_list[i+1] == '':
+                                player_battle_list[i-1] = player_battle_list[i]
+                                player_battle_list[i] = ['해골', cards['해골'].attack, cards['해골'].health]
+                            else:
+                                pass
                         # 카드 사망 시
-                    # 사망 시 작용하는 특성
-                    if match_battle_list[i][2] <= 0:
+                # 사망 시 작용하는 특성
+                if match_battle_list[i][2] <= 0:
                         match_battle_list[i] = ''
                         for i in range(4):
                             if player_abilty == '이중 사망':
