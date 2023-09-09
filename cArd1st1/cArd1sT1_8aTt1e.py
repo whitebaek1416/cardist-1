@@ -1,5 +1,6 @@
 import random as r
 uroboros_power = 1
+global uroboros_power
 
 
 class Cards:
@@ -576,7 +577,7 @@ def player_unauto_abilty(player_battle_list, battle_deck, hand, energy, bone, ge
     unauto_abiltys = ['도굴', '뼈 프린터', '자극', '진정한 학자', '팽창']
     player_unauto_abiltys = []
     for i in player_battle_list:
-        if cards[i[0]].attribute in unauto_abiltys:
+        if i != '' and cards[i[0]].attribute in unauto_abiltys:
             player_unauto_abiltys.append(cards[i].attribute)
 
     player_unauto = input(f'발동 가능한 특성 = {player_unauto_abiltys}')
@@ -857,18 +858,17 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
                 elif player_abilty == '강철 덫':
                     player_battle_list[i] = ''
                     bone += 1
-                elif player_abilty == '루비 심장':
-                    player_battle_list[i] = ['루비 목스', cards['루비 목스'].attack, cards['루비 목스'].health]
                 elif match_abilty == '가시':
-                    player_battle_list[i][2] -= 1
-                elif match_abilty == '역겨움':
-                    player_battle_list[i][2] -= 0
-                # 굴살이
+                    player_battle_list[i][2] -= match_battle_list[i][1]
+                    match_battle_list[i][2] -= 1
+                elif match_abilty == '취약성':
+                    player_battle_list[i][2] -= match_battle_list[i][1]
+                    match_battle_list[i] = ''
+                    bone += 1
                 for j in range(4):
                     if '굴살이' in player_abilty and player_battle_list[j] == '':
                         player_battle_list[j] = player_battle_list[i]
                         player_battle_list[i] = ''
-                # 데미지 계산
                 else:
                     # 체력 계산
                     player_battle_list[i][2] -= match_battle_list[i][1]
@@ -934,8 +934,6 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
                                     pass
                     # 카드 사망 시
                     if player_battle_list[i][2] <= 0:
-                        player_battle_list[i] = ''
-                        bone += 1
                         # 사망 시 작용하는 특성
                         for i in range(4):
                             if player_abilty == '이중 사망':
@@ -956,12 +954,15 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
                                                 player_battle_list[i] = ''
                                                 bone += 1
                         if player_abilty == '골왕':
-                            bone += 3
-                        elif player_abilty == '불사':
-                            hand.append(player_battle_list[i][0])
-                        elif player_abilty == '취약성':
+                            player_battle_list[i] = ''
+                            bone += 4
+                        elif player_abilty == '루비 심장':
                             player_battle_list[i] = ''
                             bone += 1
+                            player_battle_list[i] = ['루비 목스', cards['루비 목스'].attack, cards['루비 목스'].health]
+                        elif player_abilty == '불사':
+                            hand.append(player_battle_list[i][0])
+                            uroboros_power += 1
                         elif player_abilty == '폭탄':
                             try:
                                 player_battle_list[i-1][2] -= 10
