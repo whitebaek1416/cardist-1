@@ -1,6 +1,6 @@
 import random as r
-uroboros_power = 1
 global uroboros_power
+uroboros_power = 1
 
 
 class Cards:
@@ -440,7 +440,7 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
                         break
                     else:
                         print('그것을 내기 위한 피가 부족하다.')
-                        return energy, bone, player_battle_list
+                        return hand, energy, max_energy, bone, player_battle_list, match_battle_list, battle_deck
                 # 비용이 에너지일 때
                 elif cards[set_card].cost[0] == '에너지':
                     if energy >= cards[set_card].cost[1]:
