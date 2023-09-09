@@ -496,46 +496,46 @@ def card_set(hand, energy, max_energy, bone, gem, match_ready_list, match_battle
                 player_battle_list[card_space-1] = [set_card, cards[set_card].attack, cards[set_card].health]
                 hand.remove(set_card)
                 will_place = False
-            # 소환 시 발동하는 특성
-            for i in range(4):   # 수호자
-                if cards[set_card].attribute == '수호자' and match_battle_list[card_space-1] == '':
-                    player_battle_list[card_space-1] = match_battle_list[card_space-1]
-                    match_battle_list[i] = ''
-            if cards[set_card].attribute == '보석 의존증':
-                if not gem or cards[set_card].cost not in gem:
-                    set_card = ''
-                    bone += 1
-            if cards[set_card].attribute == '보초':
-                if match_battle_list[card_space-1] != '':
-                    if match_battle_list[card_space-1][2] >= 1:
-                        match_battle_list[card_space-1][2] -= 1
-                    else:
-                        match_battle_list[card_space-1] = ''
-            if cards[set_card].attribute == '배터리 운반자':
-                max_energy += 1
-                energy += 1
-            if cards[set_card].attribute == '손재주':
-                hand = []
-                battle_deck, hand = start_draw(battle_deck, hand)
+        # 소환 시 발동하는 특성
+        for i in range(4):   # 수호자
+            if cards[set_card].attribute == '수호자' and match_battle_list[card_space-1] == '':
+                player_battle_list[card_space-1] = match_battle_list[card_space-1]
+                match_battle_list[i] = ''
+        if cards[set_card].attribute == '보석 의존증':
+            if not gem or cards[set_card].cost not in gem:
+                set_card = ''
+                bone += 1
+        if cards[set_card].attribute == '보초':
+            if match_battle_list[card_space-1] != '':
+                if match_battle_list[card_space-1][2] >= 1:
+                    match_battle_list[card_space-1][2] -= 1
+                else:
+                    match_battle_list[card_space-1] = ''
+        if cards[set_card].attribute == '배터리 운반자':
+            max_energy += 1
+            energy += 1
+        if cards[set_card].attribute == '손재주':
+            hand = []
+            battle_deck, hand = start_draw(battle_deck, hand)
+            battle_deck, hand = draw(battle_deck, hand)
+        if cards[set_card].attribute == '심리적 뵤기':
+            moxes = 0
+            for i in range(len(hand)):
+                if hand[i] == '루비 목스' or hand[i] == '사파이어 목스' or hand[i] == '에메랄드 목스' or \
+                    hand[i] == '블린의 목스' or hand[i] == '고란즈의 목스' or hand[i] == '오를루의 목스' or \
+                    hand[i] == '마그누스 목스':
+                    moxes += 1
+            for i in range(moxes):
                 battle_deck, hand = draw(battle_deck, hand)
-            if cards[set_card].attribute == '심리적 뵤기':
-                moxes = 0
-                for i in range(len(hand)):
-                    if hand[i] == '루비 목스' or hand[i] == '사파이어 목스' or hand[i] == '에메랄드 목스' or \
-                        hand[i] == '블린의 목스' or hand[i] == '고란즈의 목스' or hand[i] == '오를루의 목스' or \
-                        hand[i] == '마그누스 목스':
-                        moxes += 1
-                for i in range(moxes):
-                    battle_deck, hand = draw(battle_deck, hand)
-            if cards[set_card].attribute == '생식력':
-                hand.append('들쥐')
-            if cards[set_card].attribute == '폭탄 바주카':
-                for i in range(4):
-                    if player_battle_list[i] == '':
-                        player_battle_list[i] = ['봄버봇', cards['봄버봇'].attack, cards['봄버봇'].health]
-                for i in range(4):
-                    if match_battle_list[i] == '':
-                        match_battle_list[i] = ['봄버봇', cards['봄버봇'].attack, cards['봄버봇'].health]
+        if cards[set_card].attribute == '생식력':
+            hand.append('들쥐')
+        if cards[set_card].attribute == '폭탄 바주카':
+            for i in range(4):
+                if player_battle_list[i] == '':
+                    player_battle_list[i] = ['봄버봇', cards['봄버봇'].attack, cards['봄버봇'].health]
+            for i in range(4):
+                if match_battle_list[i] == '':
+                    match_battle_list[i] = ['봄버봇', cards['봄버봇'].attack, cards['봄버봇'].health]
 
     print(f'에너지: {energy}, 뼈: {bone}, 보석: {gem}')
     print_battle_plate(match_ready_list, match_battle_list, player_battle_list)
@@ -551,7 +551,10 @@ def match_set(bone, gem, match_ready_list, match_battle_list, player_battle_list
             return bone, match_ready_list
         elif set_card in cards.keys():
             setting = False
-    card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
+    while True:
+        card_space = int(input('놓을 자리를 입력하세요.(1, 2, 3, 4)'))
+        if 1 <= card_space <= 4:
+            break
     if cards[set_card].attribute == '보석 의존증':
         if not gem or cards[set_card]['비용'] not in gem:
             set_card = ''
@@ -615,8 +618,6 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
     for i in range(4):
         if player_battle_list[i] != '':
             player_abilty = cards[player_battle_list[i][0]].attribute
-        if match_battle_list[i] != '':
-            match_abilty = cards[match_battle_list[i][0]].attribute
             # 특수 공격력
             if isinstance(cards[player_battle_list[i][0]].attack, list):
                 if player_battle_list[i][1][0] == 'ㄱㅓㅇㅜㄹㅜㅇㅓㄱ':
@@ -636,6 +637,7 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
                     hand.append(r.choice(all_cards))
             # 다른 특성들
             elif match_battle_list[i] != '':
+                match_abilty = cards[match_battle_list[i][0]].attribute
                 # 공격 시 특성
                 if player_abilty == '비행':
                     if match_abilty == '비행 방어':
@@ -818,13 +820,11 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
     for i in range(4):
         if match_battle_list[i] != '':
             match_abilty = cards[match_battle_list[i][0]].attribute
-        if player_battle_list[i] != '':
-            player_abilty = cards[player_battle_list[i][0]].attribute
-        if match_battle_list[i] != '':
             if player_battle_list[i] == '':
                 my_health -= match_battle_list[i][1]
             # 공격 시 작용하는 특성
             elif player_battle_list[i] != '':
+                player_abilty = cards[player_battle_list[i][0]].attribute
                 # 공격 시 특성
                 if match_abilty == '비행':
                     if cards[match_battle_list[i]].attribute == '비행 방어':
