@@ -318,29 +318,29 @@ while True:
                     print('그런 물건은 취급하지 않습니다만...')
                     continue
     # 진균학자 방문
-    if action == 'tlfgja':
-        print('dkssudgktlsrk?')
-        print('djtjdhk! djtjdhk!')
-        print('tlfgjacpsms wnsqlehoTsk?')
-        print('tlfgja! tlfgja!')
-        tlfgjacp = input('tlfgjacpfmf soshkfk!')
-        if tlfgjacp == '들쥐' and collection['들쥐'] <= 2:
-            print('dlrp qkfh sork gkrh tlvdjTejs rjdi!')
-            print('tlfgjadlek! tlfgja!')
+    if action == '실험':
+        print('안녕하신가?')
+        print('어서 와! 어서 와!')
+        print('실험체는 준비됐나?')
+        print('실험! 실험!')
+        실험체 = input('실험체를 내놔라!')
+        if 실험체 == '들쥐' and collection['들쥐'] <= 2:
+            print('이게 바로 내가 하고 싶었던 거야!')
+            print('실험이다! 실험!')
             collection['들쥐'] -= 2
             collection['포자쥐'] += 1
-        elif tlfgjacp == '감시 드론' and collection['감시 드론'] <= 2:
-            print('wlsWkfh tlfgjacp rngodhs rjdi?')
-            print('dlwp tlfgjadldi! akstp!')
+        elif 실험체 == '감시 드론' and collection['감시 드론'] <= 2:
+            print('진짜로 실험체 구해온 거야?')
+            print('이제 실험이야! 만세!')
             collection['감시 드론'] -= 2
             collection['감시 포자'] += 1
-        elif tlfgjacp == '뼈 굴착자' and collection['뼈 굴착자'] <= 2:
-            print('dhk! wlsWk tlfgjacpwksgdk!')
-            print('emdldj! tlfgjadl! ehlsek!')
+        elif 실험체 == '뼈 굴착자' and collection['뼈 굴착자'] <= 2:
+            print('와! 진짜 실험체잖아!')
+            print('드디어! 실험이! 된다!')
             collection['뼈 굴착자'] -= 2
             collection['포자굴착자'] += 1
-        elif tlfgjacp == '파란 마법사' and collection['파란 마법사'] <= 2:
-            print('tlfgjacp? rhakdnj!')
-            print('rhakdnj! rhakdnj!')
+        elif 실험체 == '파란 마법사' and collection['파란 마법사'] <= 2:
+            print('실험체? 고마워!')
+            print('고마워! 고마워!')
             collection['파란 마법사'] -= 2
             collection['파란 포자마법사'] += 1

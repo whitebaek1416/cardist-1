@@ -617,6 +617,8 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
     attack_moves = ['다람쥐 분만', '밀치기', '이동', '해골 선원']
     for i in range(4):
         if player_battle_list[i] != '':
+            return hand, bone, my_health, match_battle_list, player_battle_list
+        if player_battle_list[i] != '':
             player_abilty = cards[player_battle_list[i][0]].attribute
             # 특수 공격력
             if isinstance(cards[player_battle_list[i][0]].attack, list):
@@ -690,6 +692,10 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
                     player_battle_list[i][2] -= 1
                 elif match_abilty == '역겨움':
                     player_battle_list[i][2] -= 0
+                elif player_abilty == '취약성':
+                    match_battle_list[i][2] -= player_battle_list[i][1]
+                    player_battle_list[i] = ''
+                    bone += 1
                 else:
                     match_battle_list[i][2] -= player_battle_list[i][1]
             # 데미지 계산
@@ -776,10 +782,7 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
                                             elif cards[player_battle_list[i]].attribute == '이중 사망':
                                                 player_battle_list[i] = ''
                                                 bone += 1
-                        if player_abilty == '취약성':
-                            player_battle_list[i] = ''
-                            bone += 1
-                        elif player_abilty == '폭탄':
+                        if player_abilty == '폭탄':
                             try:
                                 match_battle_list[i-1][2] -= 10
                                 if match_battle_list[i-1][2] <= 0:
@@ -803,7 +806,9 @@ def card_attack(hand, bone, my_health, match_battle_list, player_battle_list, ge
                                 continue
                         elif match_abilty == '해빙':
                             if match_battle_list[i][0] == '드라우그르':
-                                match_battle_list[i] = ['드라우그르', cards['드라우그르'].attack, cards['드라우그르'].health]
+                                match_battle_list[i] = ['해골', cards['해골'].attack, cards['해골'].health]
+                        else:
+                            match_battle_list[i] = ''
     return hand, bone, my_health, match_battle_list, player_battle_list
 
 
@@ -818,6 +823,8 @@ def match_ready_go(match_ready_list, match_battle_list):
 def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
     attack_moves = ['다람쥐 분만', '밀치기', '이동', '해골 선원']
     for i in range(4):
+        if match_battle_list[i] == '':
+            return my_health, hand, bone, match_battle_list, player_battle_list
         if match_battle_list[i] != '':
             match_abilty = cards[match_battle_list[i][0]].attribute
             if player_battle_list[i] == '':
@@ -988,6 +995,9 @@ def match_attack(my_health, hand, bone, match_battle_list, player_battle_list):
                         elif player_abilty == '해빙':
                             if player_battle_list[i][0] == '드라우그르':
                                 player_battle_list[i] = ['드라우그르', cards['드라우그르'].attack, cards['드라우그르']['체력']]
+                        else:
+                            player_battle_list[i] = ''
+                            bone += 1
     return my_health, hand, bone, match_battle_list, player_battle_list
 
 
